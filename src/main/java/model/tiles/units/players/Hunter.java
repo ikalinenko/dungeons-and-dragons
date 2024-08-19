@@ -90,21 +90,24 @@ public class Hunter extends Player implements HeroicUnit {
         // Find the closest enemy or pick one randomly if there are multiple at the same distance
         Enemy closestEnemy = enemiesInRange.get(generator.generate(enemiesInRange.size()));
 
-        int damageDealt = attack - closestEnemy.defend(); // Calculate damage after defense
-        if (damageDealt > 0) {
-            cb.send(name + " shoots an arrow at " + closestEnemy.getName() + " for " + damageDealt + " damage!");
-            closestEnemy.getHealth().takeDamage(damageDealt);
+        cb.send(name + " fired an arrow at " + closestEnemy.getName() + ".");
 
-            if (!closestEnemy.alive()) {
-                cb.send(closestEnemy.getName() + " has been killed by " + name + "'s arrow.");
-                addExperience(closestEnemy.experience());
-                closestEnemy.onDeath();
-            }
-        } else {
-            cb.send(closestEnemy.getName() + " successfully defends against " + name + "'s attack.");
+        int attackRoll = this.attack();
+        int defenseRoll = closestEnemy.defend();
+        int damageTaken = closestEnemy.getHealth().takeDamage(attackRoll - defenseRoll);
+
+        cb.send(closestEnemy.getName() + " rolled " + defenseRoll + " defence points.");
+        cb.send(name + " hit " + closestEnemy.getName() + " for " + damageTaken + " damage.");
+        closestEnemy.getHealth().takeDamage(damageTaken);
+
+        if (!closestEnemy.alive()) {
+            cb.send(closestEnemy.getName() + " has been killed by " + name + "'s arrow.");
+            addExperience(closestEnemy.experience());
+            closestEnemy.onDeath();
         }
 
-        cb.send(description());
+
+        //cb.send(description());
     }
 
 

@@ -94,19 +94,29 @@ public class Mage extends Player implements HeroicUnit {
 
         currentMana -= manaCost;
 
+        /*
         if (enemiesInRange.isEmpty()) {
             cb.send(name + " cast Blizzard but there were no enemies in range.");
             cb.send(description());
             return;
         }
+         */
 
         int hits = 0;
+
+        cb.send(name + " casts Blizzard.");
 
         while (hits < hitCount && !enemiesInRange.isEmpty()) {
             // Randomly select a target
             Enemy target = enemiesInRange.get(generator.generate(enemiesInRange.size()));
-            cb.send(name + " hits " + target.getName() + " with Blizzard for " + spellPower + " damage.");
-            target.getHealth().takeDamage(spellPower);
+
+            int attackRoll = this.spellPower;
+            int defenseRoll = target.defend();
+            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
+
+            cb.send(target.getName() + " rolled " + defenseRoll + " defence points.");
+            cb.send(name + " hits " + target.getName() + " with Blizzard for " + damageTaken + " damage.");
+            target.getHealth().takeDamage(damageTaken);
 
             if (!target.alive()) {
                 cb.send(target.getName() + " has been killed by " + name + "'s Blizzard.");
@@ -121,7 +131,7 @@ public class Mage extends Player implements HeroicUnit {
                     .toList();
         }
 
-        cb.send(description());
+        //cb.send(description());
     }
 
 

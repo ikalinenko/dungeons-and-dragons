@@ -73,6 +73,8 @@ public class Main {
         DeathCallBack dcb = () -> System.out.println("You Lost.");
 
         // Use LevelInitializer with playerChoice
+        LevelInitializer playerLevelInitializer = new LevelInitializer(playerChoice);
+
         LevelInitializer levelInitializer = new LevelInitializer(playerChoice);
 
         // Initialize input reader
@@ -110,10 +112,12 @@ public class Main {
             // Run the game
             game.run();
 
+            /*
             // Check if the player is alive after the level ends
             if (!board.getPlayer().alive()) {
                 System.out.println("Game over.");
             }
+             */
         } catch (IOException e) {
             System.out.println("Error loading levels: " + e.getMessage());
         }

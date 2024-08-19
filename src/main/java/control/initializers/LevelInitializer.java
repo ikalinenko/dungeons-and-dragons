@@ -43,7 +43,7 @@ public class LevelInitializer {
         this.player = tileFactory.producePlayer(playerID); // Ensure player is created
         this.generator = new RandomGenerator(); // Default generator
         this.messageCallback = System.out::println; // Default callback
-        this.deathCallback = () -> System.out.println("Player has died."); // Default callback
+        this.deathCallback = () -> System.out.println("You Lost."); // Default callback
     }
 
     public LevelInitializer(TileFactory tileFactory, Generator generator, MessageCallBack messageCallback, DeathCallBack deathCallback) {

@@ -163,7 +163,8 @@ public class Game {
     private void endGame() {
         Player player = board.getPlayer();
         if (!player.alive()) {
-            player.onDeath();
+            cb.send("Game Over.");
+            //player.onDeath();
         } else {
             cb.send("Congratulations! You've cleared all levels.");
         }

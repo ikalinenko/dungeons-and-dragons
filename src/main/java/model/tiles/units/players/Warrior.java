@@ -88,8 +88,6 @@ public class Warrior extends Player implements HeroicUnit {
                 .filter(e -> e.getPosition().Range(position) < 3)
                 .toList();
 
-        int damage = health.getCapacity() / 10;
-
         // Apply healing
         int healAmount = 10 * defense;
         int newHealth = Math.min(health.getCurrent() + healAmount, health.getCapacity());
@@ -100,9 +98,14 @@ public class Warrior extends Player implements HeroicUnit {
         if (!enemiesInRange.isEmpty()) {
             // Randomly select a target
             Enemy target = enemiesInRange.get(generator.generate(enemiesInRange.size()));
-            cb.send(name + " hits " + target.getName() + " for " + damage + " damage.");
-            target.getHealth().takeDamage(damage);
-            cb.send(target.getName() + " has now " + target.getHealth().getCurrent() + " health.");
+
+            int attackRoll = this.health.getCapacity() / 10;
+            int defenseRoll = target.defend();
+            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
+
+            cb.send(name + " hits " + target.getName() + " with Avenger's Shield for " + damageTaken + " damage.");
+            target.getHealth().takeDamage(damageTaken);
+            //cb.send(target.getName() + " has now " + target.getHealth().getCurrent() + " health.");
 
             if (!target.alive()) {
                 cb.send(target.getName() + " has been killed by " + name + "'s Avenger's Shield.");
@@ -111,7 +114,7 @@ public class Warrior extends Player implements HeroicUnit {
             }
         }
 
-        cb.send(description());
+        //cb.send(description());
     }
 
     @Override

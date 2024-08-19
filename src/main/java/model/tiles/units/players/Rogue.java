@@ -67,29 +67,34 @@ public class Rogue extends Player implements HeroicUnit {
 
         currentEnergy -= cost;
 
+        /*
         if (enemiesInRange.isEmpty()) {
             cb.send(name + " casted Fan of Knives but there were no enemies in range.");
             cb.send(description());
             return;
         }
+         */
+
+        cb.send(name + " casts Fan of Knives.");
 
         for (Enemy target : enemiesInRange) {
-            int damageDealt = attack - target.defend(); // Calculate damage after defense
-            if (damageDealt > 0) {
-                cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageDealt + " damage.");
-                target.getHealth().takeDamage(damageDealt);
 
-                if (!target.alive()) {
-                    cb.send(target.getName() + " has been killed by " + name + "'s Fan of Knives.");
-                    addExperience(target.experience());
-                    target.onDeath();
-                }
-            } else {
-                cb.send(target.getName() + " successfully defends against " + name + "'s Fan of Knives.");
+            int attackRoll = this.attack();
+            int defenseRoll = target.defend();
+            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
+
+            cb.send(target.getName() + " rolled " + defenseRoll + " defence points.");
+            cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageTaken + " damage.");
+            target.getHealth().takeDamage(damageTaken);
+
+            if (!target.alive()) {
+                cb.send(target.getName() + " has been killed by " + name + "'s Fan of Knives.");
+                addExperience(target.experience());
+                target.onDeath();
             }
         }
 
-        cb.send(description());
+        //cb.send(description());
     }
 
     private List<Enemy> getEnemies() {
