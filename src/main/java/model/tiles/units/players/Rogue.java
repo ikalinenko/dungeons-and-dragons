@@ -1,11 +1,17 @@
-package main.java.model.tiles.units.players;
+package model.tiles.units.players;
 
-import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.enemies.Enemy;
+import model.game.Board;
+import model.tiles.units.HeroicUnit;
+import model.tiles.units.Unit;
+import model.tiles.units.enemies.Enemy;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.Generator;
 
 import java.util.List;
 
-public class Rogue extends Player implements HeroicUnit {
+public class Rogue extends model.tiles.units.players.Player implements HeroicUnit {
     protected int cost;
     protected int currentEnergy;
 
@@ -29,24 +35,37 @@ public class Rogue extends Player implements HeroicUnit {
         this.attack += attackGain();
     }
 
+    @Override
     public void onTurn() {
+        if (abilityUsedThisTurn) {
+            return;
+        }
         currentEnergy = Math.min(currentEnergy + 10, MAX_ENERGY);
     }
 
-    public void castAbility() {
+    @Override
+    public void castAbility(Board board) {
         if (currentEnergy < cost) {
             cb.send(name + " tried to cast Fan of Knives but doesn't have enough energy.");
+            abilityUsedThisTurn = false;
             return;
         }
 
-        currentEnergy -= cost;
-
-        List<Enemy> enemiesInRange = getEnemies().stream()
+        // Get enemies from the board within range
+        List<Enemy> enemiesInRange = board.getEnemies().stream()
                 .filter(e -> e.getPosition().Range(position) < 2)
                 .toList();
 
+        currentEnergy -= cost;
+
+        if (enemiesInRange.isEmpty()) {
+            cb.send(name + " casted Fan of Knives but there were no enemies in range.");
+            cb.send(description());
+            return;
+        }
+
         for (Enemy target : enemiesInRange) {
-            int damageDealt = attack - target.defend(); // Calculate the damage after defense
+            int damageDealt = attack - target.defend(); // Calculate damage after defense
             if (damageDealt > 0) {
                 cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageDealt + " damage.");
                 target.getHealth().takeDamage(damageDealt);
@@ -60,6 +79,8 @@ public class Rogue extends Player implements HeroicUnit {
                 cb.send(target.getName() + " successfully defends against " + name + "'s Fan of Knives.");
             }
         }
+
+        cb.send(description());
     }
 
     private List<Enemy> getEnemies() {
@@ -69,7 +90,7 @@ public class Rogue extends Player implements HeroicUnit {
     @Override
     public String description() {
         return super.description() +
-                " Cost: " + cost +
-                ", Current energy: " + currentEnergy;
+                ", Energy: " + currentEnergy + "/" + MAX_ENERGY +
+                ", Cost: " + cost;
     }
 }

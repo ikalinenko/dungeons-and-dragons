@@ -1,53 +1,21 @@
-package main.java.model.tiles;
+package model.tiles;
 
-import main.java.model.tiles.units.Unit;
-import main.java.utils.Position;
+import model.tiles.units.Unit;
 
-public abstract class Tile {
-    protected char tile;
-    protected Position position;
+public class Wall extends Tile {
+    public static final char WALL_TILE = '#';
 
-    public Tile(char tile) {
-        this.tile = tile;
-    }
-
-    protected Tile() {
-    }
-
-    public Tile initialize(Position p) {
-        this.position = p;
-        return this;
-    }
-
-    public void swapPosition(Tile t) {
-        Position temp = t.position;
-        t.position = this.position;
-        this.position = temp;
+    public Wall() {
+        super(WALL_TILE);
     }
 
     @Override
-    public String toString() {
-        return String.valueOf(tile);
+    public void accept(Unit unit) {
+        unit.visit(this);
     }
 
-    public abstract void accept(Unit unit);
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public abstract boolean isWalkable();
-
-    public char getTileChar() {
-        return tile;
-    }
-
-    public char tileAt(Position position) {
-        this.position = position;
-        return tile;
+    @Override
+    public boolean isWalkable() {
+        return false;
     }
 }

@@ -1,6 +1,6 @@
-package main.java.model.tiles;
+package model.tiles;
 
-import main.java.model.tiles.units.Unit;
+import model.tiles.units.Unit;
 
 public class Empty extends Tile {
     protected static final char EMPTY_TILE = ',';

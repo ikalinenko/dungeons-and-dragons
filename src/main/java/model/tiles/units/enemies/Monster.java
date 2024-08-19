@@ -1,28 +1,30 @@
-package main.java.model.tiles.units.enemies;
+package model.tiles.units.enemies;
 
-import main.java.model.game.Board;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.generators.RandomGenerator;
-import main.java.utils.generators.Generator;
+import model.game.Board;
+import model.tiles.units.players.Player;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.RandomGenerator;
+import utils.generators.Generator;
 
-public class Monster extends Enemy {
+public class Monster extends model.tiles.units.enemies.Enemy {
     protected int visionRange;
-    private final Generator generator;
+    //private Generator generator;
 
     public Monster(char tile, String name, int hitPoints,
                    int attack, int defense, int visionRange, int experience) {
         super(tile, name, hitPoints, attack, defense, experience);
         this.visionRange = visionRange;
-        this.generator = new RandomGenerator(); // Default random generator
+        //this.generator = new RandomGenerator(); // Default random generator
     }
 
     @Override
     public void onEnemyTurn(Player player, Board board) {
         if (isInVisionRange(player)) {
-            chasePlayer(player, board);
+            chasePlayer(player);
         } else {
-            randomMove(board);
+            randomMove();
         }
     }
 
@@ -30,52 +32,62 @@ public class Monster extends Enemy {
         return position.Range(player.getPosition()) < visionRange;
     }
 
-    private void chasePlayer(Player player, Board board) {
-        Position newPosition;
+    private void chasePlayer(Player player) {
         Position playerPos = player.getPosition();
-
         int dx = position.getX() - playerPos.getX();
         int dy = position.getY() - playerPos.getY();
 
         if (Math.abs(dx) > Math.abs(dy)) {
             if (dx > 0) {
-                newPosition = moveLeft(board);
+                moveLeft();
             } else {
-                newPosition = moveRight(board);
+                moveRight();
             }
         } else {
             if (dy > 0) {
-                newPosition = moveUp(board);
+                moveUp();
             } else {
-                newPosition = moveDown(board);
+                moveDown();
             }
-        }
-
-        if (newPosition.equals(playerPos)) {
-            visit(player);
         }
     }
 
-    private void randomMove(Board board) {
+    private void randomMove() {
         int move = generator.generate(5);
 
         switch (move) {
             case 0:
-                moveLeft(board);
+                moveLeft();
                 break;
             case 1:
-                moveRight(board);
+                moveRight();
                 break;
             case 2:
-                moveUp(board);
+                moveUp();
                 break;
             case 3:
-                moveDown(board);
+                moveDown();
                 break;
             default:
                 // Stay
                 break;
         }
+    }
+
+    private void moveLeft() {
+        position.setX(position.getX() - 1);
+    }
+
+    private void moveRight() {
+        position.setX(position.getX() + 1);
+    }
+
+    private void moveUp() {
+        position.setY(position.getY() - 1);
+    }
+
+    private void moveDown() {
+        position.setY(position.getY() + 1);
     }
 
     @Override

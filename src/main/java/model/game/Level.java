@@ -1,13 +1,13 @@
-package main.java.model.game;
+package model.game;
 
-import main.java.control.initializers.LevelInitializer;
-import main.java.model.tiles.units.players.Player;
-import main.java.model.tiles.units.enemies.Enemy;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.view.InputReader;
+import control.initializers.LevelInitializer;
+import model.tiles.units.players.Player;
+import model.tiles.units.enemies.Enemy;
+import utils.callbacks.MessageCallBack;
+import view.InputReader;
 
 public class Level {
-    protected Board board;
+    protected model.game.Board board;
     protected InputReader inputReader;
     protected MessageCallBack cb;
     protected LevelInitializer levelInitializer;
@@ -15,7 +15,7 @@ public class Level {
     //protected Player player;
     //protected List<Enemy> enemies = new ArrayList<>();
 
-    public Level(Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
+    public Level(model.game.Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
         this.inputReader = inputReader;
         this.cb = cb;
         this.levelInitializer = levelInitializer;
@@ -25,26 +25,31 @@ public class Level {
     public void run() {
         Player player = board.getPlayer();
         cb.send(board.toString());
+        cb.send(board.getPlayer().description());
         cb.send("Your position is " + player.getPosition());
 
         while (!isLevelFinished()) {
             String action = inputReader.nextAction();
 
             // Player's turn
+            //player.onTurn();
             player.performAction(action, board);
+            player.onTurn();
 
-            //board.updateTrapVisibility();
+            board.removeDeadEnemies();
 
             // Enemies' turns
             for (Enemy enemy : board.getEnemies()) {
                 enemy.onEnemyTurn(player, board);
             }
 
+            board.removeDeadEnemies();
             board.updateTrapVisibility();
 
             // Print the board state after the turn
             cb.send(board.toString());
             cb.send(player.description());
+            cb.send(board.getEnemies().toString());
         }
     }
 
@@ -52,7 +57,7 @@ public class Level {
         return !board.getPlayer().alive() || board.allEnemiesDefeated();
     }
 
-    public Board getBoard() {
+    public model.game.Board getBoard() {
         return board;
     }
 }

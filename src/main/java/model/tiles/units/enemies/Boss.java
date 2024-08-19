@@ -1,9 +1,12 @@
-package main.java.model.tiles.units.enemies;
+package model.tiles.units.enemies;
 
-import main.java.model.game.Board;
-import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
+import model.game.Board;
+import model.tiles.units.HeroicUnit;
+import model.tiles.units.players.Player;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.Generator;
 
 public class Boss extends Enemy implements HeroicUnit {
     protected int visionRange;
@@ -21,14 +24,11 @@ public class Boss extends Enemy implements HeroicUnit {
         this.combatTicks = INIT_COMBAT_TICKS;
     }
 
-    @Override
     public void onEnemyTurn(Player player, Board board) {
-        this.targetPlayer = player; // Set the target player
-
         if (isInVisionRange(player)) {
             if (combatTicks == abilityFrequency) {
                 combatTicks = INIT_COMBAT_TICKS;
-                castAbility();
+                castAbility(board); // Pass the board to castAbility
             } else {
                 combatTicks++;
                 chasePlayer(player);
@@ -49,13 +49,20 @@ public class Boss extends Enemy implements HeroicUnit {
     }
 
     @Override
-    public void castAbility() {
+    public void castAbility(Board board) {
+        // Get the player from the board (assuming there is a method to retrieve the targeted player)
+        Player targetPlayer = board.getPlayer();
+
         if (targetPlayer != null && isInVisionRange(targetPlayer)) {
             // Cast the ability by attacking the player
             int attackPoints = attack();
-            targetPlayer.getHealth().takeDamage(attackPoints - targetPlayer.defend());
+            int damageDealt = attackPoints - targetPlayer.defend();
+            targetPlayer.getHealth().takeDamage(damageDealt);
+
             // Send a message about the attack
             cb.send(name + " attacks " + targetPlayer.getName() + " with " + attackPoints + " damage.");
+        } else {
+            cb.send(name + " cannot find a player within vision range to attack.");
         }
     }
 

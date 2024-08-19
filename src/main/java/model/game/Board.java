@@ -1,11 +1,13 @@
-package main.java.model.game;
+package model.game;
 
-import main.java.model.tiles.Empty;
-import main.java.model.tiles.Tile;
-import main.java.model.tiles.units.enemies.Enemy;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
+import model.tiles.Empty;
+import model.tiles.Tile;
+import model.tiles.units.enemies.Enemy;
+import model.tiles.units.enemies.Trap;
+import model.tiles.units.players.Player;
+import utils.Position;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -16,7 +18,7 @@ public class Board {
     private List<Tile> tiles;
     private Player player;
     private List<Enemy> enemies;
-    private final int width;
+    private int width;
 
     public Board(List<Tile> tiles, Player p, List<Enemy> enemies, int width){
         this.player = p;
@@ -33,11 +35,10 @@ public class Board {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
         for(Map.Entry<Position, Tile> entry : board.entrySet()){
             //sb.append(entry.getKey());
             sb.append(entry.getValue().toString());
-            if(entry.getKey().getX() == width - 1){
+            if(entry.getKey().getY() == width-1){
                 sb.append("\n");
             }
         }
@@ -51,17 +52,42 @@ public class Board {
     }
 
     public void updateBoard() {
-        // Handle updating the board after each turn, e.g., moving enemies, updating player position
+        // Handle updating the board after each turn, e.g., moving enemies, removing enemies, updating player position
     }
 
     public boolean allEnemiesDefeated() {
         return enemies.stream().noneMatch(Enemy::alive);
     }
 
+    public void removeDeadEnemies() {
+        Iterator<Enemy> iterator = enemies.iterator();
+        while (iterator.hasNext()) {
+            Enemy enemy = iterator.next();
+            if (!enemy.alive()) {  // Check if the enemy is dead
+                Position enemyPos = enemy.getPosition();
+
+                // Debug: Print out the position before updating
+                System.out.println("Removing dead enemy at position: " + enemyPos);
+
+                // Replace the enemy's position on the board with an Empty tile
+                board.put(enemyPos, new Empty());
+
+                // Debug: Verify that the tile was updated correctly
+                Tile updatedTile = board.get(enemyPos);
+                System.out.println("Updated tile at position: " + updatedTile);
+
+                iterator.remove(); // Safely remove the enemy from the list
+            }
+        }
+    }
+
+
+    /*
     public void removeEnemy(Enemy enemy) {
         board.put(enemy.getPosition(), new Empty());
         enemies.remove(enemy);
-    }
+        }
+     */
 
     public boolean isPositionFree(Position newPosition) {
         Tile tile = board.get(newPosition);
@@ -78,9 +104,20 @@ public class Board {
     }
 
     public Tile getTile(Position position) {
-        int index = position.getY() * width + position.getX();
-        return tiles.get(index);
+        return board.get(position);
     }
+
+    /*
+    public Tile getTile(Position position) {
+        int index = position.getY() * width + position.getX();
+        if (index >= 0 && index < tiles.size()) {
+            return tiles.get(index);
+        } else {
+            // Handle out-of-bounds error
+            return null; // or throw an exception
+        }
+    }
+     */
 
     /*
     public void removeEnemy(Enemy enemy) {
