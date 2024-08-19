@@ -35,6 +35,13 @@ public class Rogue extends Player implements HeroicUnit {
         super.levelUp();
         this.currentEnergy = MAX_ENERGY;
         this.attack += attackGain();
+
+        String rogueMessage = name + " reached level " + level + ": +"
+                + healthGain() + " Health, +"
+                + attackGain() + " Attack, +"
+                + defenseGain() + " Defense.";
+
+        cb.send(rogueMessage);
     }
 
     @Override

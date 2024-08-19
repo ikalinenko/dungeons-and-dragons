@@ -54,6 +54,21 @@ public class Mage extends Player implements HeroicUnit {
         this.manaPool += manaGain();
         this.currentMana = Math.min(this.currentMana + (INIT_MANA), manaPool);
         this.spellPower += spellPowerGain();
+
+        String mageMessage = name + " reached level " + level + ": +"
+                + healthGain() + " Health, +"
+                + attackGain() + " Attack, +"
+                + defenseGain() + " Defense, +"
+                + manaGain() + " Maximum Mana, +"
+                + spellPowerGain() + " Spell Power.";
+
+        cb.send(mageMessage);
+
+        /*
+        cb.send(name + " reached level " + level + ": +"
+                + healthGain() + " Health, +" + attackGain() + " Attack, +" + defenseGain() + " Defense, +"
+                + manaGain() + " Maximum Pana, +" + spellPowerGain() + " Spell Power.");
+         */
     }
 
     @Override

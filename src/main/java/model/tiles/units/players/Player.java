@@ -53,6 +53,7 @@ public abstract class Player extends Unit {
 
     public void addExperience(int experienceValue) {
         this.experience += experienceValue;
+        cb.send(this.name + " gained " + experienceValue + " experience.");
         while (experience >= levelRequirement()) {
             levelUp();
         }
@@ -82,10 +83,12 @@ public abstract class Player extends Unit {
         attack += attackGain();
         defense += defenseGain();
 
-        cb.send(name + " leveled up to " + level);
-        cb.send("HP Gain: " + healthGain());
-        cb.send("AP Gain: " + attackGain());
-        cb.send("DP Gain: " + defenseGain());
+        /*
+        String baseMessage = name + " reached level " + level + ": +"
+                + healthGain() + " Health, +"
+                + attackGain() + " Attack, +"
+                + defenseGain() + " Defense";
+         */
     }
 
     @Override
@@ -100,8 +103,8 @@ public abstract class Player extends Unit {
     public void visit(Enemy e) {
         battle(e);
         if(!e.alive()) {
-            addExperience(e.experience());
             e.onDeath();
+            addExperience(e.experience());
         }
     }
 

@@ -48,16 +48,19 @@ public class Warrior extends Player implements HeroicUnit {
         super.levelUp();
 
         this.remainingCooldown = INIT_COOLDOWN;
-        cb.send(name + " cooldown has been reset.");
+        //cb.send(name + " cooldown has been reset.");
 
         health.increaseMax(healthGain());
         health.restore();
         attack += attackGain();
         defense += defenseGain();
 
-        cb.send(name + "HP Gain: " + healthGain());
-        cb.send(name + "AP Gain: " + attackGain());
-        cb.send(name + "DP Gain: " + defenseGain());
+        String warriorMessage = name + " reached level " + level + ": +"
+                + healthGain() + " Health, +"
+                + attackGain() + " Attack, +"
+                + defenseGain() + " Defense.";
+
+        cb.send(warriorMessage);
     }
 
     @Override

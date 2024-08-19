@@ -62,27 +62,18 @@ public abstract class Unit extends Tile {
     }
 
     public void battle(Unit defender) {
+        cb.send(this.name + " engaged in combat with " + defender.name + ".");
+        cb.send(this.description());
+        cb.send(defender.description());
+
         // Assuming this is the attacker
         int attackRoll = this.attack();
         int defenseRoll = defender.defend();
         int damageTaken = defender.health.takeDamage(attack - defense);
 
-        cb.send(this.name + " engaged in combat with " + defender.name + ".");
-        cb.send(this.description());
-        cb.send(defender.description());
         cb.send(this.name + " rolled " + attackRoll + " attack points.");
         cb.send(defender.name + " rolled " + defenseRoll + " defence points.");
-        cb.send(this.name + " dealt " + damageTaken + " to " + defender.name + ".");
-
-        /*
-        if (damageTaken > 0) {
-            cb.send(this.description() + " dealt " + damageTaken + " damage to " + defender.description());
-        }
-         */
-
-        if (!defender.alive()) {
-            defender.onDeath();
-        }
+        cb.send(this.name + " dealt " + damageTaken + " damage to " + defender.name + ".");
     }
 
     public Position moveLeft(Board board) {

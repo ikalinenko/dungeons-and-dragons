@@ -47,8 +47,15 @@ public class Hunter extends Player implements HeroicUnit {
         this.arrowsCount += arrowsGain();
         this.attack += attackGain();
         this.defense += defenseGain();
-    }
 
+        String hunterMessage = name + " reached level " + level + ": +"
+                + healthGain() + " Health, +"
+                + attackGain() + " Attack, +"
+                + defenseGain() + " Defense, +"
+                + arrowsGain() + " Arrows.";
+
+        cb.send(hunterMessage);
+    }
 
     @Override
     public void onTurn() {
