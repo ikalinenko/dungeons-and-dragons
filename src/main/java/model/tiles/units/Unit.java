@@ -91,14 +91,14 @@ public abstract class Unit extends Tile {
     }
 
     public Position moveUp(Board board) {
-        Position newPosition = new Position(position.getX(), position.getY() + 1);
+        Position newPosition = new Position(position.getX(), position.getY() - 1);
         move(newPosition, board); // Move up
 
         return newPosition;
     }
 
     public Position moveDown(Board board) {
-        Position newPosition = new Position(position.getX(), position.getY() - 1);
+        Position newPosition = new Position(position.getX(), position.getY() + 1);
         move(newPosition, board); // Move down
 
         return newPosition;

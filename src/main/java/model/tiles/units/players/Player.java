@@ -255,7 +255,6 @@ public abstract class Player extends Unit {
     @Override
     public void onDeath() {
         this.tile = 'X';
-        cb.send(name + " has died.");
         dcb.onDeath();
     }
 }

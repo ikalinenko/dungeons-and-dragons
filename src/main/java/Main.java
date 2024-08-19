@@ -43,7 +43,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         String levelsDirectoryPath = "src/main/resources/levels_dir";
-        //String levelsDirectoryPath = "C:\\Users\\AM\\levels_dir";
+        //String levelsDirectoryPath = "C:/Users/AM/levels_dir";
         //String levelsDirectoryPath = "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir";
 
         // Initialize tile factory and player options
@@ -70,7 +70,7 @@ public class Main {
         // Initialize callbacks and generator
         Generator generator = new FixedGenerator(); // or any other generator you prefer
         MessageCallBack cb = System.out::println;
-        DeathCallBack dcb = () -> System.out.println("Player has died.");
+        DeathCallBack dcb = () -> System.out.println("You Lost.");
 
         // Use LevelInitializer with playerChoice
         LevelInitializer levelInitializer = new LevelInitializer(playerChoice);

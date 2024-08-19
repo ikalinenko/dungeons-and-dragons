@@ -41,6 +41,7 @@ public abstract class Enemy extends Unit {
     public void visit(Player p) {
         this.battle(p);
         if(!p.alive()) {
+            cb.send(p.getName() + " was killed by " + this.name);
             p.onDeath();
         }
     }
