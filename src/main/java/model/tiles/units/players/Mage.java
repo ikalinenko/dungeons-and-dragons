@@ -1,8 +1,13 @@
-package main.java.model.tiles.units.players;
+package model.tiles.units.players;
 
-import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.enemies.Enemy;
-import main.java.utils.generators.RandomGenerator;
+import model.game.Board;
+import model.tiles.units.HeroicUnit;
+import model.tiles.units.enemies.Enemy;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.Generator;
+import utils.generators.RandomGenerator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,7 +30,7 @@ public class Mage extends Player implements HeroicUnit {
                 int manaPool, int manaCost, int spellPower, int hitCount, int abilityRange) {
         super(name, hitPoints, attack, defense);
         this.manaPool = manaPool;
-        this.currentMana = INIT_MANA;
+        this.currentMana = manaPool / 4;
         this.manaCost = manaCost;
         this.spellPower = spellPower;
         this.hitCount = hitCount;
@@ -49,24 +54,39 @@ public class Mage extends Player implements HeroicUnit {
         this.spellPower += spellPowerGain();
     }
 
+    @Override
     public void onTurn() {
+        if (abilityUsedThisTurn) {
+            return;
+        }
         currentMana = Math.min(manaPool, currentMana + level);
     }
 
-    public void castAbility() {
+    @Override
+    public void castAbility(Board board) {
         if (currentMana < manaCost) {
             cb.send(name + " tried to cast Blizzard but doesn't have enough mana.");
+            abilityUsedThisTurn = false;
             return;
         }
 
+        // Get enemies from the board within range
+        List<Enemy> enemiesInRange = board.getEnemies().stream()
+                .filter(e -> e.getPosition().Range(position) < abilityRange)
+                .toList();
+
         currentMana -= manaCost;
+
+        if (enemiesInRange.isEmpty()) {
+            cb.send(name + " cast Blizzard but there were no enemies in range.");
+            cb.send(description());
+            return;
+        }
+
         int hits = 0;
 
-        List<Enemy> enemiesInRange = enemies.stream()
-                .filter(e -> e.getPosition().Range(position) < abilityRange)
-                .collect(Collectors.toList());
-
         while (hits < hitCount && !enemiesInRange.isEmpty()) {
+            // Randomly select a target
             Enemy target = enemiesInRange.get(generator.generate(enemiesInRange.size()));
             cb.send(name + " hits " + target.getName() + " with Blizzard for " + spellPower + " damage.");
             target.getHealth().takeDamage(spellPower);
@@ -78,12 +98,15 @@ public class Mage extends Player implements HeroicUnit {
             }
 
             hits++;
-            // Re-filter the enemies list in case some have died
+            // Re-filter the enemies list to ensure only living enemies are targeted
             enemiesInRange = enemiesInRange.stream()
                     .filter(Enemy::alive)
-                    .collect(Collectors.toList());
+                    .toList();
         }
+
+        cb.send(description());
     }
+
 
     /*
     private List<Enemy> getEnemies() {
@@ -95,11 +118,10 @@ public class Mage extends Player implements HeroicUnit {
     @Override
     public String description() {
         return super.description() +
-                " Current mana: " + currentMana +
-                " Mana pool: " + manaPool +
-                " Mana cost: " + manaCost +
-                " Spell power: " + spellPower +
-                " Hit count: " + hitCount +
+                ", Mana: " + currentMana + "/" + manaPool +
+                ", Mana cost: " + manaCost +
+                ", Spell power: " + spellPower +
+                ", Hit count: " + hitCount +
                 ", Ability range: " + abilityRange;
     }
 }

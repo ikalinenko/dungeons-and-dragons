@@ -1,13 +1,20 @@
-package main.java.model.game;
+package model.game;
 
-import main.java.control.initializers.LevelInitializer;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.view.ScannerInputReader;
+import control.initializers.BoardLoader;
+import control.initializers.LevelInitializer;
+import model.tiles.Tile;
+import model.tiles.units.enemies.Enemy;
+import model.tiles.units.players.Player;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import view.ScannerInputReader;
+
+import java.util.List;
+import java.util.TimeZone;
+import java.util.TreeMap;
 
 public class Game {
-    private Board board;
+    private model.game.Board board;
     private Level level;
     private int currentLevelIndex = 0;
 
@@ -16,18 +23,21 @@ public class Game {
     private MessageCallBack cb;
     private DeathCallBack dcb;
 
-    public Game(Board board, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb) {
+    public Game(model.game.Board board, LevelInitializer levelInit, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb) {
         this.board = board;
+        this.levelInitializer = levelInit;
         this.inputReader = inputReader;
         this.cb = cb;
         this.dcb = dcb;
     }
 
+    /*
     public Game(Board board, MessageCallBack cb, DeathCallBack dcb) {
         this.board = board;
         this.cb = cb;
         this.dcb = dcb;
     }
+    */
 
     public void setLevel(Level level) {
         this.level = level;
@@ -102,6 +112,7 @@ public class Game {
         endGame();
     }
 
+
     protected void playerAction() {
         // Handle player action based on input (move, attack, cast ability)
         String action = inputReader.nextAction();
@@ -126,16 +137,16 @@ public class Game {
 
     private void loadNextLevel() {
         currentLevelIndex++;
-        if (currentLevelIndex < getTotalLevels()) {
+        if (currentLevelIndex <= getTotalLevels()) {
             String nextLevelPath = getLevelPath(currentLevelIndex);
             levelInitializer.loadNextLevel(nextLevelPath);
-            this.board = level.getBoard();
+            this.board = levelInitializer.getBoard();
             this.level = new Level(board, inputReader, cb, levelInitializer); // Update level reference with the new board
         }
     }
 
-    private boolean isGameOver() {
-        return !board.getPlayer().alive() || (currentLevelIndex >= getTotalLevels());
+    public boolean isGameOver() {
+        return !board.getPlayer().alive() || (currentLevelIndex > getTotalLevels());
     }
 
     private void displayBoardState() {
@@ -152,8 +163,12 @@ public class Game {
         }
     }
 
-    public Board getBoard() {
+    public model.game.Board getBoard() {
         return board;
+    }
+
+    public void setBoard(model.game.Board board) {
+        this.board = board;
     }
 
     private int getTotalLevels() {
@@ -163,6 +178,6 @@ public class Game {
 
     private String getLevelPath(int levelIndex) {
         // Return the path to the level file based on the level index
-        return "path/to/level" + levelIndex + ".txt"; // Example path format
+        return "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir\\level" + levelIndex + ".txt"; // Example path format
     }
 }

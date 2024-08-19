@@ -1,7 +1,12 @@
-package main.java.model.tiles.units.players;
+package model.tiles.units.players;
 
-import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.enemies.Enemy;
+import model.game.Board;
+import model.tiles.units.HeroicUnit;
+import model.tiles.units.enemies.Enemy;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.Generator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,6 +47,8 @@ public class Hunter extends Player implements HeroicUnit {
         this.defense += defenseGain();
     }
 
+
+    @Override
     public void onTurn() {
         if (ticksCount == ARROWS_GAIN) {
             arrowsCount += level;
@@ -52,30 +59,45 @@ public class Hunter extends Player implements HeroicUnit {
     }
 
     @Override
-    public void castAbility() {
-        if (arrowsCount == 0 || !hasEnemyInRange()) {
-            cb.send("Cannot cast ability. Either no arrows left or no enemies in range.");
+    public void castAbility(Board board) {
+        if (arrowsCount == 0) {
+            cb.send(name + " cannot shoot. No arrows left.");
+            return;
+        }
+
+        // Get enemies from the board within range
+        List<Enemy> enemiesInRange = board.getEnemies().stream()
+                .filter(e -> e.getPosition().Range(position) < range)
+                .toList();
+
+        if (enemiesInRange.isEmpty()) {
+            cb.send(name + " tried to shoot an arrow but no enemies were in range.");
+            cb.send(description());
             return;
         }
 
         arrowsCount--;
-        Enemy closestEnemy = findClosestEnemy();
 
-        if (closestEnemy != null) {
-            int damageDealt = attack - closestEnemy.defend(); // Calculate damage after defense
-            if (damageDealt > 0) {
-                cb.send(name + " shoots an arrow at " + closestEnemy.getName() + " for " + damageDealt + " damage!");
-                closestEnemy.getHealth().takeDamage(damageDealt);
+        // Find the closest enemy or pick one randomly if there are multiple at the same distance
+        Enemy closestEnemy = enemiesInRange.get(generator.generate(enemiesInRange.size()));
 
-                if (!closestEnemy.alive()) {
-                    addExperience(closestEnemy.experience());
-                    closestEnemy.onDeath();
-                }
-            } else {
-                cb.send(closestEnemy.getName() + " successfully defends against " + name + "'s attack.");
+        int damageDealt = attack - closestEnemy.defend(); // Calculate damage after defense
+        if (damageDealt > 0) {
+            cb.send(name + " shoots an arrow at " + closestEnemy.getName() + " for " + damageDealt + " damage!");
+            closestEnemy.getHealth().takeDamage(damageDealt);
+
+            if (!closestEnemy.alive()) {
+                cb.send(closestEnemy.getName() + " has been killed by " + name + "'s arrow.");
+                addExperience(closestEnemy.experience());
+                closestEnemy.onDeath();
             }
+        } else {
+            cb.send(closestEnemy.getName() + " successfully defends against " + name + "'s attack.");
         }
+
+        cb.send(description());
     }
+
 
     private boolean hasEnemyInRange() {
         return findClosestEnemy() != null;
@@ -113,7 +135,7 @@ public class Hunter extends Player implements HeroicUnit {
     @Override
     public String description() {
         return super.description() +
-                " Arrows: " + arrowsCount +
+                ", Arrows: " + arrowsCount +
                 ", Range: " + range +
                 ", Ticks: " + ticksCount;
     }

@@ -1,17 +1,18 @@
-package main.java;
+package control;
 
-import main.java.control.initializers.BoardLoader;
-import main.java.control.initializers.LevelInitializer;
-import main.java.control.initializers.TileFactory;
-import main.java.model.game.Board;
-import main.java.model.game.Game;
-import main.java.model.game.Level;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.FixedGenerator;
-import main.java.utils.generators.Generator;
-import main.java.view.ScannerInputReader;
+import control.initializers.BoardLoader;
+import control.initializers.LevelInitializer;
+import control.initializers.TileFactory;
+import model.game.Board;
+import model.game.Game;
+import model.game.Level;
+import model.tiles.units.players.Player;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.FixedGenerator;
+import utils.generators.Generator;
+import view.ScannerInputReader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,6 +20,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class Main {
 
@@ -33,86 +35,85 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        String levelsDirectoryPath = "../resources/levels";
+        String levelsDirectoryPath = "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir";
 
-        //String levelsDirectoryPath = args[0];
-
-        // Step 1: Display the list of players
+        // Initialize tile factory and player options
         TileFactory tileFactory = new TileFactory();
         List<Supplier<Player>> playerSuppliers = tileFactory.getPlayerTypes();
-        System.out.println("Choose a player:");
+        System.out.println("Select player:");
         for (int i = 0; i < playerSuppliers.size(); i++) {
-            // Use producePlayer(i + 1) temporarily to print the description for each player
             Player playerInstance = tileFactory.producePlayer(i + 1);
             System.out.println((i + 1) + ". " + playerInstance.description());
         }
 
-        //System.out.println(tileFactory.producePlayer(1).attack());
-
-        // Step 2: User selects a player
+        // User selects a player
         Scanner scanner = new Scanner(System.in);
         int playerChoice = 0;
         while (playerChoice < 1 || playerChoice > playerSuppliers.size()) {
             System.out.print("Enter a number between 1 and " + playerSuppliers.size() + ": ");
-            playerChoice = scanner.nextInt();
+            try {
+                playerChoice = Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                playerChoice = 0;
+            }
         }
-
-        //System.out.println("wrong!");
 
         // Initialize callbacks and generator
         Generator generator = new FixedGenerator(); // or any other generator you prefer
         MessageCallBack cb = System.out::println;
         DeathCallBack dcb = () -> System.out.println("Player has died.");
 
+        // Use LevelInitializer with playerChoice
         LevelInitializer levelInitializer = new LevelInitializer(playerChoice);
 
-        // Step 6: Load and start the game for each level in the directory
+        // Initialize input reader
+        ScannerInputReader inputReader = new ScannerInputReader();
+
         try {
-            Files.list(Paths.get(levelsDirectoryPath))
+                /*
+                // Process each level
+            for (var path : Files.list(Paths.get(levelsDirectoryPath))
                     .filter(Files::isRegularFile)
-                    .sorted() // Ensure levels are loaded in order (if files are named accordingly)
-                    .forEach(path -> {
-                        String levelPath = path.toString();
-                        System.out.println("Loading level: " + levelPath);
+                    .sorted()
+                    .toList()) {
+                 */
 
-                        // Initialize the level
-                        levelInitializer.initLevel(levelPath);
+            // Process first level
+            var pathToLevel1 = Files.list(Paths.get(levelsDirectoryPath))
+                    .sorted()
+                    .collect(Collectors.toList())
+                    .get(0);
+            String levelPath = pathToLevel1.toString();
+            //System.out.println("Loading level: " + levelPath);
 
-                        // Load the board
-                        BoardLoader boardLoader = new BoardLoader(levelInitializer.getTiles(), levelInitializer.getPlayer(), levelInitializer.getEnemies(), levelPath);
-                        Board board = boardLoader.loadBoard();
+            // Initialize the level
+            levelInitializer.initLevel(levelPath);
 
-                        Player player = levelInitializer.getPlayer();
+            // Load the board
+            BoardLoader boardLoader = new BoardLoader(levelInitializer.getTiles(), levelInitializer.getPlayer(), levelInitializer.getEnemies(), levelPath);
+            Board board = boardLoader.loadBoard();
 
-                        //System.out.println("Player selected: " + player.description() + " - Health: " + player.getHealth());
+            // Initialize the level and game with the new board
+            Level level = new Level(board, inputReader, cb, levelInitializer);
+            Game game = new Game(board, levelInitializer, inputReader, cb, dcb);
+            game.setLevel(level);
 
-                        // Ensure tiles, player, and enemies are properly initialized
-                        if (levelInitializer.getTiles() == null || levelInitializer.getPlayer() == null || levelInitializer.getEnemies() == null) {
-                            throw new IllegalArgumentException("One of the parameters is null.");
-                        }
+            // Run the game
+            game.run();
 
-                        // Initialize input reader
-                        ScannerInputReader inputReader = new ScannerInputReader();
-
-                        // Initialize the level
-                        Level level = new Level(board, inputReader, cb, levelInitializer);
-
-                        // Initialize the game
-                        Game game = new Game(board, inputReader, cb, dcb);
-                        game.setLevel(level);
-
-                        // Run the game
-                        game.run();
-
-                        // Check if the player is alive after the level ends
-                        if (!levelInitializer.getPlayer().alive()) {
-                            System.out.println("Game over.");
-                        }
-                    });
+            // Check if the player is alive after the level ends
+            if (!board.getPlayer().alive()) {
+                System.out.println("Game over.");
+                return;  // Exit the loop if the player is dead
+            }
         } catch (IOException e) {
             System.out.println("Error loading levels: " + e.getMessage());
         }
     }
+
+
+
+
 
     /*
     private static int calculateWidth(String levelPath) {

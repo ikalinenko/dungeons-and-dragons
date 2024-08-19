@@ -1,21 +1,23 @@
-package main.java.model.tiles.units.players;
+package model.tiles.units.players;
 
-import java.util.Optional;
-
-import main.java.model.game.Board;
-import main.java.model.tiles.units.Unit;
-import main.java.model.tiles.units.enemies.Enemy;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
-import main.java.view.ScannerInputReader;
+import model.game.Board;
+import model.tiles.Empty;
+import model.tiles.Tile;
+import model.tiles.units.Unit;
+import model.tiles.units.enemies.Enemy;
+import utils.Position;
+import utils.callbacks.DeathCallBack;
+import utils.callbacks.MessageCallBack;
+import utils.generators.Generator;
+import view.ScannerInputReader;
 
 public abstract class Player extends Unit {
     protected int level;
     protected int experience;
 
     protected ScannerInputReader inputReader;
+
+    protected boolean abilityUsedThisTurn = false;
 
     public static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
@@ -95,50 +97,127 @@ public abstract class Player extends Unit {
 
     public abstract void onTurn();
 
-    public abstract void castAbility();
+    public abstract void castAbility(Board board);
 
     public void performAction(String action, Board board) {
-        Position newPosition = null;
-
         switch (action) {
             case "w":
-                newPosition = moveUp(board);
+                move(new Position(position.getX() - 1, position.getY()), board);
+                abilityUsedThisTurn = false;// Move up
                 break;
             case "s":
-                newPosition = moveDown(board);
+                move(new Position(position.getX() + 1, position.getY()), board);
+                abilityUsedThisTurn = false;// Move down
                 break;
             case "a":
-                newPosition = moveLeft(board);
+                move(new Position(position.getX(), position.getY() - 1), board);
+                abilityUsedThisTurn = false;// Move left
                 break;
             case "d":
-                newPosition = moveRight(board);
+                move(new Position(position.getX(), position.getY() + 1), board); // Move right
+                abilityUsedThisTurn = false;
                 break;
             case "e":
-                castAbility(); // Cast special ability
+                abilityUsedThisTurn = true;
+                castAbility(board);
+                // Cast special ability
                 break;
             case "q":
                 // Do nothing
+                abilityUsedThisTurn = false;
                 cb.send(getName() + " chose to wait.");
                 break;
             default:
                 cb.send("Invalid action. Please choose a valid action.");
                 break;
         }
-
-        Position finalNewPosition = newPosition;
-        Optional<Enemy> enemyOnPosition = board.getEnemies().stream()
-                .filter(enemy -> enemy.getPosition().equals(finalNewPosition))
-                .findFirst();
-
-        enemyOnPosition.ifPresent(this::visit);
     }
 
+    /*
+    private void move(Position newPosition, Board board) {
+        if (isValidMove(newPosition, board)) {
+            //this.position = newPosition;
+
+            // Replace the old position with an empty tile
+            board.updateTile(position, new Empty());
+
+            // Update player's position
+            position = newPosition;
+
+            // Place player at the new position
+            board.updateTile(position, this);  // 'this' refers to the Player (Tile)
+            cb.send(getName() + " moved to " + newPosition);
+        } else {
+            cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
+        }
+    }
+     */
+
+    private void move(Position newPosition, Board board) {
+        if (isValidMove(newPosition, board)) {
+            // Get the target tile at the new position
+            Tile targetTile = board.getTile(newPosition);
+
+            // Check if the target tile is null
+            if (targetTile != null) {
+                // Replace the old position with an empty tile
+                board.updateTile(position, new Empty());
+
+                // Interact with the target tile
+                targetTile.accept(this);
+
+                // Update player's position
+                position = newPosition;
+
+                // Place player at the new position
+                board.updateTile(position, this);  // 'this' refers to the Player (Tile)
+                cb.send(getName() + " moved to " + newPosition);
+            } else {
+                cb.send(getName() + " encountered an invalid tile at " + newPosition);
+            }
+        } else {
+            cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
+        }
+    }
+
+    /*
+    public void move(Position newPosition, Board board) {
+        Tile targetTile = board.getTile(newPosition);
+        targetTile.accept(this);
+
+     */
+
+    /*
+    private void move(Position newPosition, Board board) {
+        Tile targetTile = board.getTile(newPosition); // Get the tile at the new position
+
+        if (isValidMove(newPosition, board)) {
+            // Swap positions with the target tile (which could be an Empty tile)
+            swapPosition(targetTile);
+
+            // Update the board with the new positions
+            board.updateTile(position, this);              // Update Player's new position on the board
+            board.updateTile(targetTile.getPosition(), targetTile); // Update the target tile's new position
+
+            cb.send(getName() + " moved to " + newPosition);
+        } else {
+            cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
+        }
+    }
+     */
+
+    private boolean isValidMove(Position newPosition, Board board) {
+        return board.isPositionFree(newPosition);
+    }
+
+    /*
     @Override
     public void onDeath() {
-        this.tile = 'X';
-        cb.send(name + " has died.");
+        //this.tile = 'X';
+        //cb.send(name + " has died.");
         dcb.onDeath();
     }
+     */
 
     public Position getPosition() {
         return position;
