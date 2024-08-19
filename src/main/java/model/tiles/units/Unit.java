@@ -69,7 +69,7 @@ public abstract class Unit extends Tile {
         // Assuming this is the attacker
         int attackRoll = this.attack();
         int defenseRoll = defender.defend();
-        int damageTaken = defender.health.takeDamage(attack - defense);
+        int damageTaken = defender.health.takeDamage(attackRoll - defenseRoll);
 
         cb.send(this.name + " rolled " + attackRoll + " attack points.");
         cb.send(defender.name + " rolled " + defenseRoll + " defence points.");

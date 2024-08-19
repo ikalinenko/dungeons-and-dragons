@@ -42,8 +42,9 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        //String levelsDirectoryPath = "src/main/resources/levels_dir";
-        String levelsDirectoryPath = "C:\\Users\\AM\\levels_dir";
+        String levelsDirectoryPath = "src/main/resources/levels_dir";
+        //String levelsDirectoryPath = "C:\\Users\\AM\\levels_dir";
+        //String levelsDirectoryPath = "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir";
 
         // Initialize tile factory and player options
         TileFactory tileFactory = new TileFactory();
