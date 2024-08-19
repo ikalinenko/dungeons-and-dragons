@@ -1,11 +1,13 @@
-package model.game;
+package main.java.model.game;
 
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.Tile;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.Position;
+import main.java.model.tiles.Empty;
+import main.java.model.tiles.Tile;
 import model.tiles.units.enemies.Trap;
-import model.tiles.units.players.Player;
-import utils.Position;
+import main.java.utils.Position;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +40,7 @@ public class Board {
         for(Map.Entry<Position, Tile> entry : board.entrySet()){
             //sb.append(entry.getKey());
             sb.append(entry.getValue().toString());
-            if(entry.getKey().getY() == width-1){
+            if(entry.getKey().getX() == width - 1){
                 sb.append("\n");
             }
         }

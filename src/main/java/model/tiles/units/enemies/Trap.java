@@ -1,13 +1,15 @@
-package model.tiles.units.enemies;
+package main.java.model.tiles.units.enemies;
 
-import model.game.Board;
-import model.tiles.Empty;
-import model.tiles.units.players.Player;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.utils.Position;
+import main.java.model.game.Board;
+import main.java.model.tiles.Empty;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
 
-public class Trap extends model.tiles.units.enemies.Enemy {
+public class Trap extends Enemy {
     protected int visTime;
     protected int invisTime;
     protected int ticks = 1;

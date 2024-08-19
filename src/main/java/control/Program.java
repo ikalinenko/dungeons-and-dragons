@@ -1,8 +1,8 @@
 package main.java.control;
 
 import main.java.model.tiles.units.Unit;
-import main.java.model.tiles.units.enemies.Monster;
-import main.java.model.tiles.units.players.Warrior;
+import model.tiles.units.players.Warrior;
+import model.tiles.units.enemies.Monster;
 import main.java.utils.Position;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.FixedGenerator;

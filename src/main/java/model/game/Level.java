@@ -1,13 +1,17 @@
-package model.game;
+package main.java.model.game;
 
-import control.initializers.LevelInitializer;
-import model.tiles.units.players.Player;
-import model.tiles.units.enemies.Enemy;
-import utils.callbacks.MessageCallBack;
-import view.InputReader;
+import main.java.control.initializers.LevelInitializer;
+import main.java.control.initializers.LevelInitializer;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.view.InputReader;
+import main.java.model.game.Board;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.view.InputReader;
 
 public class Level {
-    protected model.game.Board board;
+    protected Board board;
     protected InputReader inputReader;
     protected MessageCallBack cb;
     protected LevelInitializer levelInitializer;
@@ -15,7 +19,7 @@ public class Level {
     //protected Player player;
     //protected List<Enemy> enemies = new ArrayList<>();
 
-    public Level(model.game.Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
+    public Level(Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
         this.inputReader = inputReader;
         this.cb = cb;
         this.levelInitializer = levelInitializer;
@@ -57,7 +61,7 @@ public class Level {
         return !board.getPlayer().alive() || board.allEnemiesDefeated();
     }
 
-    public model.game.Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 }

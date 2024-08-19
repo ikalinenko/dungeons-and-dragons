@@ -1,17 +1,17 @@
-package model.tiles.units.players;
+package main.java.model.tiles.units.players;
 
-import model.game.Board;
-import model.tiles.units.HeroicUnit;
-import model.tiles.units.Unit;
-import model.tiles.units.enemies.Enemy;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.Generator;
+import main.java.model.tiles.units.HeroicUnit;
+import main.java.model.game.Board;
+import main.java.model.tiles.units.Unit;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
 
 import java.util.List;
 
-public class Warrior extends model.tiles.units.players.Player implements HeroicUnit {
+public class Warrior extends Player implements HeroicUnit {
     protected int abilityCooldown;
     protected int remainingCooldown;
 

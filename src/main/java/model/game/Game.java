@@ -1,20 +1,26 @@
-package model.game;
+package main.java.model.game;
 
-import control.initializers.BoardLoader;
-import control.initializers.LevelInitializer;
-import model.tiles.Tile;
-import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import view.ScannerInputReader;
+import main.java.control.initializers.BoardLoader;
+import main.java.control.initializers.LevelInitializer;
+import main.java.control.initializers.LevelInitializer;
+import main.java.model.game.Level;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.view.ScannerInputReader;
+//import main.java.model.game.Board;
+import main.java.model.tiles.Tile;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.view.ScannerInputReader;
 
 import java.util.List;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class Game {
-    private model.game.Board board;
+    private Board board;
     private Level level;
     private int currentLevelIndex = 0;
 
@@ -23,7 +29,7 @@ public class Game {
     private MessageCallBack cb;
     private DeathCallBack dcb;
 
-    public Game(model.game.Board board, LevelInitializer levelInit, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb) {
+    public Game(Board board, LevelInitializer levelInit, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb) {
         this.board = board;
         this.levelInitializer = levelInit;
         this.inputReader = inputReader;
@@ -163,11 +169,11 @@ public class Game {
         }
     }
 
-    public model.game.Board getBoard() {
+    public Board getBoard() {
         return board;
     }
 
-    public void setBoard(model.game.Board board) {
+    public void setBoard(Board board) {
         this.board = board;
     }
 

@@ -1,17 +1,19 @@
-package control.initializers;
+package main.java.control.initializers;
 
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.Wall;
-import model.tiles.units.enemies.Boss;
-import model.tiles.units.enemies.Enemy;
-import model.tiles.units.enemies.Monster;
-import model.tiles.units.enemies.Trap;
-import model.tiles.units.players.*;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.Generator;
+import main.java.model.tiles.Empty;
+import main.java.model.tiles.Tile;
+import main.java.model.tiles.Wall;
+import main.java.model.tiles.units.enemies.Boss;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.enemies.Monster;
+import main.java.model.tiles.units.enemies.Trap;
+import main.java.model.tiles.units.enemies.Monster;
+import main.java.model.tiles.units.enemies.Trap;
+import main.java.model.tiles.units.players.*;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
 
 import java.util.AbstractMap;
 import java.util.Arrays;
@@ -20,15 +22,15 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public class TileFactory {
-    private model.tiles.units.players.Player p;
-    public static final List<Supplier<model.tiles.units.players.Player>> playerTypes= Arrays.asList(
-            () -> new model.tiles.units.players.Warrior("Jon Snow", 300, 30, 4, 3),
-            () -> new model.tiles.units.players.Warrior("The Hound", 400, 20, 6, 5),
-            () -> new model.tiles.units.players.Mage("Melisandre", 100, 5, 1, 300, 30 ,15, 5, 6),
-            () -> new model.tiles.units.players.Mage("Thoros of Myr", 250, 25, 4, 150, 20, 20, 3, 4),
-            () -> new model.tiles.units.players.Rogue("Arya Stark", 150, 40, 2, 20),
-            () -> new model.tiles.units.players.Rogue("Bronn", 250, 35, 3, 50),
-            () -> new model.tiles.units.players.Hunter("Ygritte", 220, 30, 2, 6)
+    private Player p;
+    public static final List<Supplier<Player>> playerTypes= Arrays.asList(
+            () -> new Warrior("Jon Snow", 300, 30, 4, 3),
+            () -> new Warrior("The Hound", 400, 20, 6, 5),
+            () -> new Mage("Melisandre", 100, 5, 1, 300, 30 ,15, 5, 6),
+            () -> new Mage("Thoros of Myr", 250, 25, 4, 150, 20, 20, 3, 4),
+            () -> new Rogue("Arya Stark", 150, 40, 2, 20),
+            () -> new Rogue("Bronn", 250, 35, 3, 50),
+            () -> new Hunter("Ygritte", 220, 30, 2, 6)
     );
 
     public static final Map<Character, Supplier<Enemy>> enemyTypes = Map.ofEntries(
@@ -50,15 +52,15 @@ public class TileFactory {
     public TileFactory() {
     }
 
-    public model.tiles.units.players.Player producePlayer(int playerID, Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
-        Supplier<model.tiles.units.players.Player> supplier = playerTypes.get(playerID - 1); // Ensure playerID is valid
-        model.tiles.units.players.Player player = supplier.get();
+    public Player producePlayer(int playerID, Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
+        Supplier<Player> supplier = playerTypes.get(playerID - 1); // Ensure playerID is valid
+        Player player = supplier.get();
         player.initialize(p, gen, cb, dcb);
         return player;
     }
 
-    public model.tiles.units.players.Player producePlayer(int playerID) {
-        Supplier<model.tiles.units.players.Player> supp = playerTypes.get(playerID-1);
+    public Player producePlayer(int playerID) {
+        Supplier<Player> supp = playerTypes.get(playerID-1);
         this.p = supp.get();
         return this.p;
     }
@@ -70,7 +72,7 @@ public class TileFactory {
     }
      */
 
-    public model.tiles.units.players.Player producePlayer() {
+    public Player producePlayer() {
         return this.p;
     }
 
@@ -88,7 +90,7 @@ public class TileFactory {
         return new Wall().initialize(p);
     }
 
-    public List<Supplier<model.tiles.units.players.Player>> getPlayerTypes() {
+    public List<Supplier<Player>> getPlayerTypes() {
         return playerTypes;
     }
 }

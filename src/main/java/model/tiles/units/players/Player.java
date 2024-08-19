@@ -1,15 +1,25 @@
-package model.tiles.units.players;
+package main.java.model.tiles.units.players;
 
-import model.game.Board;
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.units.Unit;
-import model.tiles.units.enemies.Enemy;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.Generator;
-import view.ScannerInputReader;
+import main.java.model.game.Board;
+import main.java.model.tiles.units.Unit;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
+import main.java.view.ScannerInputReader;
+import main.java.model.game.Board;
+import main.java.model.tiles.Empty;
+import main.java.model.tiles.Tile;
+import main.java.model.tiles.units.Unit;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
+import main.java.view.ScannerInputReader;
+
+import java.util.Optional;
 
 public abstract class Player extends Unit {
     protected int level;
@@ -100,21 +110,23 @@ public abstract class Player extends Unit {
     public abstract void castAbility(Board board);
 
     public void performAction(String action, Board board) {
+        Position newPosition = null;
+
         switch (action) {
             case "w":
-                move(new Position(position.getX() - 1, position.getY()), board);
+                newPosition = moveUp(board);
                 abilityUsedThisTurn = false;// Move up
                 break;
             case "s":
-                move(new Position(position.getX() + 1, position.getY()), board);
+                newPosition = moveDown(board);
                 abilityUsedThisTurn = false;// Move down
                 break;
             case "a":
-                move(new Position(position.getX(), position.getY() - 1), board);
+                newPosition = moveLeft(board);
                 abilityUsedThisTurn = false;// Move left
                 break;
             case "d":
-                move(new Position(position.getX(), position.getY() + 1), board); // Move right
+                newPosition = moveRight(board);
                 abilityUsedThisTurn = false;
                 break;
             case "e":
@@ -131,6 +143,12 @@ public abstract class Player extends Unit {
                 cb.send("Invalid action. Please choose a valid action.");
                 break;
         }
+
+        Position finalNewPosition = newPosition;
+        Optional<Enemy> enemyOnPosition = board.getEnemies().stream()
+                .filter(enemy -> enemy.getPosition().equals(finalNewPosition))
+                .findFirst();
+        enemyOnPosition.ifPresent(this::visit);
     }
 
     /*
@@ -153,6 +171,7 @@ public abstract class Player extends Unit {
     }
      */
 
+    /*
     private void move(Position newPosition, Board board) {
         if (isValidMove(newPosition, board)) {
             // Get the target tile at the new position
@@ -179,6 +198,7 @@ public abstract class Player extends Unit {
             cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
         }
     }
+     */
 
     /*
     public void move(Position newPosition, Board board) {
@@ -206,9 +226,11 @@ public abstract class Player extends Unit {
     }
      */
 
+    /*
     private boolean isValidMove(Position newPosition, Board board) {
         return board.isPositionFree(newPosition);
     }
+     */
 
     /*
     @Override
@@ -225,5 +247,12 @@ public abstract class Player extends Unit {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    @Override
+    public void onDeath() {
+        this.tile = 'X';
+        cb.send(name + " has died.");
+        dcb.onDeath();
     }
 }

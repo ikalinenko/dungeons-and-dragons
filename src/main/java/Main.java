@@ -1,18 +1,23 @@
-package control;
+package main.java;
 
 import control.initializers.BoardLoader;
-import control.initializers.LevelInitializer;
 import control.initializers.TileFactory;
+import main.java.control.initializers.LevelInitializer;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.FixedGenerator;
+import main.java.utils.generators.Generator;
+import main.java.view.ScannerInputReader;
 import model.game.Board;
 import model.game.Game;
 import model.game.Level;
 import model.tiles.units.players.Player;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.FixedGenerator;
-import utils.generators.Generator;
-import view.ScannerInputReader;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.FixedGenerator;
+import main.java.utils.generators.Generator;
+import main.java.view.ScannerInputReader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -21,6 +26,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static java.awt.SystemColor.control;
 
 public class Main {
 
@@ -35,7 +42,7 @@ public class Main {
 
 
     public static void main(String[] args) throws Exception {
-        String levelsDirectoryPath = "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir";
+        String levelsDirectoryPath = "../resources/levels";
 
         // Initialize tile factory and player options
         TileFactory tileFactory = new TileFactory();
@@ -104,7 +111,6 @@ public class Main {
             // Check if the player is alive after the level ends
             if (!board.getPlayer().alive()) {
                 System.out.println("Game over.");
-                return;  // Exit the loop if the player is dead
             }
         } catch (IOException e) {
             System.out.println("Error loading levels: " + e.getMessage());

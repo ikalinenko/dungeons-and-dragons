@@ -1,16 +1,21 @@
-package control.initializers;
+package main.java.control.initializers;
 
-import model.game.Board;
-import model.tiles.Empty;
-import model.tiles.Tile;
-import model.tiles.Wall;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
+import main.java.utils.generators.RandomGenerator;
+import main.java.model.game.Board;
+import main.java.model.tiles.Empty;
+import main.java.model.tiles.Tile;
+import main.java.model.tiles.Wall;
 import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.FixedGenerator;
-import utils.generators.Generator;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.FixedGenerator;
+import main.java.utils.generators.Generator;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -36,7 +41,7 @@ public class LevelInitializer {
         this.tileFactory = tileFactory;
         this.playerID = playerID;
         this.player = tileFactory.producePlayer(playerID); // Ensure player is created
-        this.generator = new FixedGenerator(); // Default generator
+        this.generator = new RandomGenerator(); // Default generator
         this.messageCallback = System.out::println; // Default callback
         this.deathCallback = () -> System.out.println("Player has died."); // Default callback
     }
@@ -68,7 +73,7 @@ public class LevelInitializer {
         for (String line : lines) {
             int col = 0;
             for (char c : line.toCharArray()) {
-                Position position = new Position(row, col);
+                Position position = new Position(col, row);
                 Tile tile = null;
                 switch (c) {
                     case '.':

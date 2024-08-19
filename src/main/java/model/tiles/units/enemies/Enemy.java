@@ -1,13 +1,19 @@
-package model.tiles.units.enemies;
+package main.java.model.tiles.units.enemies;
 
-import model.game.Board;
-import model.tiles.units.Unit;
-import model.tiles.units.players.Player;
-import utils.Health;
-import utils.Position;
-import utils.callbacks.DeathCallBack;
-import utils.callbacks.MessageCallBack;
-import utils.generators.Generator;
+import main.java.model.game.Board;
+import main.java.model.tiles.units.Unit;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
+import main.java.model.game.Board;
+import main.java.model.tiles.units.Unit;
+import main.java.model.tiles.units.players.Player;
+import main.java.utils.Health;
+import main.java.utils.Position;
+import main.java.utils.callbacks.DeathCallBack;
+import main.java.utils.callbacks.MessageCallBack;
+import main.java.utils.generators.Generator;
 
 public abstract class Enemy extends Unit {
     protected int experience;

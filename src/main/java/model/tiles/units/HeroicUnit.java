@@ -1,5 +1,7 @@
 package main.java.model.tiles.units;
 
+import main.java.model.game.Board;
+
 public interface HeroicUnit {
-    void castAbility();
+    void castAbility(Board board);
 }
