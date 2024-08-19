@@ -6,7 +6,7 @@ import main.java.model.tiles.units.players.Player;
 import main.java.utils.Position;
 import main.java.model.tiles.Empty;
 import main.java.model.tiles.Tile;
-import model.tiles.units.enemies.Trap;
+import main.java.model.tiles.units.enemies.Trap;
 import main.java.utils.Position;
 
 import java.util.Iterator;

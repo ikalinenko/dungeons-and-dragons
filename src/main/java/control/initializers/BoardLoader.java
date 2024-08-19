@@ -4,8 +4,8 @@ import main.java.model.tiles.Tile;
 import main.java.utils.Position;
 import main.java.model.game.Board;
 import main.java.model.tiles.Tile;
-import model.tiles.units.enemies.Enemy;
-import model.tiles.units.players.Player;
+import main.java.model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.players.Player;
 import main.java.utils.Position;
 
 import java.io.IOException;

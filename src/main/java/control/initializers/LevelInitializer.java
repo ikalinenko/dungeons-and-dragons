@@ -9,7 +9,7 @@ import main.java.model.game.Board;
 import main.java.model.tiles.Empty;
 import main.java.model.tiles.Tile;
 import main.java.model.tiles.Wall;
-import model.tiles.units.enemies.Enemy;
+import main.java.model.tiles.units.enemies.Enemy;
 import main.java.model.tiles.units.players.Player;
 import main.java.utils.Position;
 import main.java.utils.callbacks.DeathCallBack;

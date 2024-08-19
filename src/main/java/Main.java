@@ -1,17 +1,17 @@
 package main.java;
 
-import control.initializers.BoardLoader;
-import control.initializers.TileFactory;
+import main.java.control.initializers.BoardLoader;
+import main.java.control.initializers.TileFactory;
 import main.java.control.initializers.LevelInitializer;
 import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.FixedGenerator;
 import main.java.utils.generators.Generator;
 import main.java.view.ScannerInputReader;
-import model.game.Board;
-import model.game.Game;
-import model.game.Level;
-import model.tiles.units.players.Player;
+import main.java.model.game.Board;
+import main.java.model.game.Game;
+import main.java.model.game.Level;
+import main.java.model.tiles.units.players.Player;
 import main.java.utils.Position;
 import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
