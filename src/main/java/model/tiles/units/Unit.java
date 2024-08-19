@@ -120,7 +120,7 @@ public abstract class Unit extends Tile {
             board.updateTile(position, this);  // 'this' refers to the Unit (Tile)
             cb.send(getName() + " moved to " + newPosition);
         } else {
-            cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
+            //cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
         }
     }
 
