@@ -82,13 +82,6 @@ public abstract class Player extends Unit {
         health.restore();
         attack += attackGain();
         defense += defenseGain();
-
-        /*
-        String baseMessage = name + " reached level " + level + ": +"
-                + healthGain() + " Health, +"
-                + attackGain() + " Attack, +"
-                + defenseGain() + " Defense";
-         */
     }
 
     @Override
@@ -103,6 +96,8 @@ public abstract class Player extends Unit {
     public void visit(Enemy e) {
         battle(e);
         if(!e.alive()) {
+            this.swapPosition(e);
+            e.tile = (PLAYER_TILE);
             e.onDeath();
             addExperience(e.experience());
         }
@@ -255,5 +250,11 @@ public abstract class Player extends Unit {
     public void onDeath() {
         this.tile = 'X';
         dcb.onDeath();
+    }
+
+    public String description() {
+        return super.description() +
+                ", Level: " + level +
+                ", Experience: " + experience + "/" + levelRequirement();
     }
 }

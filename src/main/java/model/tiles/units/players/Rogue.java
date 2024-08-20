@@ -18,7 +18,7 @@ public class Rogue extends Player implements HeroicUnit {
     protected int currentEnergy;
 
     protected static final int MAX_ENERGY = 100;
-    protected static final int ATTACK_GAIN = 3;
+    protected static final int EXTRA_ATTACK_GAIN = 3;
 
     public Rogue(String name, int hitPoints, int attack, int defense, int cost) {
         super(name, hitPoints, attack, defense);
@@ -27,14 +27,14 @@ public class Rogue extends Player implements HeroicUnit {
     }
 
     protected int attackGain() {
-        return super.attackGain() + ATTACK_GAIN * level;
+        return super.attackGain() + EXTRA_ATTACK_GAIN * level;
     }
 
     @Override
     public void levelUp() {
         super.levelUp();
+
         this.currentEnergy = MAX_ENERGY;
-        this.attack += attackGain();
 
         String rogueMessage = name + " reached level " + level + ": +"
                 + healthGain() + " Health, +"
@@ -81,11 +81,12 @@ public class Rogue extends Player implements HeroicUnit {
 
             int attackRoll = this.attack();
             int defenseRoll = target.defend();
-            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
-
-            cb.send(target.getName() + " rolled " + defenseRoll + " defence points.");
-            cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageTaken + " damage.");
+            int damageTaken = attackRoll - defenseRoll;
             target.getHealth().takeDamage(damageTaken);
+
+            cb.send(name + " attacks " + target.getName() + " for " + attackRoll + " damage.");
+            cb.send(target.getName() + " rolled " + defenseRoll + " defense points.");
+            cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageTaken + " damage.");
 
             if (!target.alive()) {
                 cb.send(target.getName() + " has been killed by " + name + "'s Fan of Knives.");

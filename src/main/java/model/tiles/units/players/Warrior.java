@@ -16,9 +16,9 @@ public class Warrior extends Player implements HeroicUnit {
     protected int remainingCooldown;
 
     protected static final int INIT_COOLDOWN = 0;
-    protected static final int HEALTH_GAIN = 5;
-    protected static final int ATTACK_GAIN = 2;
-    protected static final int DEFENSE_GAIN = 1;
+    protected static final int EXTRA_HEALTH_GAIN = 5;
+    protected static final int EXTRA_ATTACK_GAIN = 2;
+    protected static final int EXTRA_DEFENSE_GAIN = 1;
 
     //private List<Enemy> enemies;
 
@@ -30,17 +30,17 @@ public class Warrior extends Player implements HeroicUnit {
 
     @Override
     protected int healthGain() {
-        return super.healthGain() + HEALTH_GAIN * level;
+        return super.healthGain() + EXTRA_HEALTH_GAIN * level;
     }
 
     @Override
     protected int attackGain() {
-        return super.attackGain() + ATTACK_GAIN * level;
+        return super.attackGain() + EXTRA_ATTACK_GAIN * level;
     }
 
     @Override
     protected int defenseGain() {
-        return super.defenseGain() + DEFENSE_GAIN * level;
+        return super.defenseGain() + EXTRA_DEFENSE_GAIN * level;
     }
 
     @Override
@@ -48,12 +48,6 @@ public class Warrior extends Player implements HeroicUnit {
         super.levelUp();
 
         this.remainingCooldown = INIT_COOLDOWN;
-        //cb.send(name + " cooldown has been reset.");
-
-        health.increaseMax(healthGain());
-        health.restore();
-        attack += attackGain();
-        defense += defenseGain();
 
         String warriorMessage = name + " reached level " + level + ": +"
                 + healthGain() + " Health, +"
@@ -101,10 +95,15 @@ public class Warrior extends Player implements HeroicUnit {
 
             int attackRoll = this.health.getCapacity() / 10;
             int defenseRoll = target.defend();
-            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
-
-            cb.send(name + " hits " + target.getName() + " with Avenger's Shield for " + damageTaken + " damage.");
+            int damageTaken = attackRoll - defenseRoll;
+            cb.send(target.description());
             target.getHealth().takeDamage(damageTaken);
+
+            cb.send(name + " attacks " + target.getName() + " for " + attackRoll + " damage.");
+            cb.send(target.getName() + " rolled " + defenseRoll + " defense points.");
+            cb.send(name + " hits " + target.getName() + " with Avenger's Shield for " + damageTaken + " damage.");
+
+            //cb.send(target.description());
             //cb.send(target.getName() + " has now " + target.getHealth().getCurrent() + " health.");
 
             if (!target.alive()) {

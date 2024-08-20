@@ -1,5 +1,6 @@
 package main.java.model.tiles.units.enemies;
 
+import main.java.model.tiles.units.HeroicUnit;
 import main.java.utils.Position;
 import main.java.utils.generators.Generator;
 import main.java.utils.generators.RandomGenerator;
@@ -11,7 +12,7 @@ import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.RandomGenerator;
 import main.java.utils.generators.Generator;
 
-public class Monster extends Enemy {
+public class Monster extends Enemy implements HeroicUnit {
     protected int visionRange;
     private final Generator generator;
 
@@ -33,6 +34,29 @@ public class Monster extends Enemy {
 
     protected boolean isInVisionRange(Player player) {
         return position.Range(player.getPosition()) < visionRange;
+    }
+
+    @Override
+    public void castAbility(Board board) {
+        // Get the player from the board (assuming there is a method to retrieve the targeted player)
+        Player targetPlayer = board.getPlayer();
+
+        if (isInVisionRange(targetPlayer)) {
+            // Cast the ability by attacking the player
+            int attackRoll = attack();
+            int defenseRoll = targetPlayer.defend();
+            int damageTaken = attackRoll - defenseRoll;
+            targetPlayer.getHealth().takeDamage(damageTaken);
+
+            cb.send(name + " attacks " + targetPlayer.getName() + " for " + attackRoll + " damage.");
+            cb.send(targetPlayer.getName() + " rolled " + defenseRoll + " defence points.");
+            cb.send(name + " hit " + targetPlayer.getName() + " for " + damageTaken + " damage.");
+
+            if (!targetPlayer.alive()) {
+                cb.send(targetPlayer.getName() + " was killed by " + name + ".");
+                targetPlayer.onDeath();
+            }
+        }
     }
 
     protected void chasePlayer(Player player, Board board) {

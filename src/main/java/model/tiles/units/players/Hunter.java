@@ -19,8 +19,8 @@ public class Hunter extends Player implements HeroicUnit {
     protected int ticksCount;
 
     protected static final int ARROWS_GAIN = 10;
-    protected static final int ATTACK_GAIN = 2;
-    protected static final int DEFENSE_GAIN = 1;
+    protected static final int EXTRA_ATTACK_GAIN = 2;
+    protected static final int EXTRA_DEFENSE_GAIN = 1;
 
     public Hunter(String name, int hitPoints, int attack, int defense, int range) {
         super(name, hitPoints, attack, defense);
@@ -34,19 +34,18 @@ public class Hunter extends Player implements HeroicUnit {
     }
 
     protected int attackGain() {
-        return super.attackGain() + ATTACK_GAIN * level;
+        return super.attackGain() + EXTRA_ATTACK_GAIN * level;
     }
 
     protected int defenseGain() {
-        return super.defenseGain() + DEFENSE_GAIN * level;
+        return super.defenseGain() + EXTRA_DEFENSE_GAIN * level;
     }
 
     @Override
     public void levelUp() {
         super.levelUp();
+
         this.arrowsCount += arrowsGain();
-        this.attack += attackGain();
-        this.defense += defenseGain();
 
         String hunterMessage = name + " reached level " + level + ": +"
                 + healthGain() + " Health, +"
@@ -94,11 +93,12 @@ public class Hunter extends Player implements HeroicUnit {
 
         int attackRoll = this.attack();
         int defenseRoll = closestEnemy.defend();
-        int damageTaken = closestEnemy.getHealth().takeDamage(attackRoll - defenseRoll);
-
-        cb.send(closestEnemy.getName() + " rolled " + defenseRoll + " defence points.");
-        cb.send(name + " hit " + closestEnemy.getName() + " for " + damageTaken + " damage.");
+        int damageTaken = attackRoll - defenseRoll;
         closestEnemy.getHealth().takeDamage(damageTaken);
+
+        cb.send(name + " attacks " + closestEnemy.getName() + " for " + attackRoll + " damage.");
+        cb.send(closestEnemy.getName() + " rolled " + defenseRoll + " defense points.");
+        cb.send(name + " hit " + closestEnemy.getName() + " for " + damageTaken + " damage.");
 
         if (!closestEnemy.alive()) {
             cb.send(closestEnemy.getName() + " has been killed by " + name + "'s arrow.");

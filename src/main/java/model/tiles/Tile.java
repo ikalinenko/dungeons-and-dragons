@@ -4,14 +4,14 @@ import main.java.model.tiles.units.Unit;
 import main.java.utils.Position;
 
 public abstract class Tile {
-    protected char tile;
+    public char tile;
     protected Position position;
 
     public Tile(char tile) {
         this.tile = tile;
     }
 
-    protected Tile() {
+    public Tile() {
     }
 
     public Tile initialize(Position p) {

@@ -51,6 +51,7 @@ public class Mage extends Player implements HeroicUnit {
     @Override
     public void levelUp() {
         super.levelUp();
+
         this.manaPool += manaGain();
         this.currentMana = Math.min(this.currentMana + (INIT_MANA), manaPool);
         this.spellPower += spellPowerGain();
@@ -112,11 +113,11 @@ public class Mage extends Player implements HeroicUnit {
 
             int attackRoll = this.spellPower;
             int defenseRoll = target.defend();
-            int damageTaken = target.getHealth().takeDamage(attackRoll - defenseRoll);
-
-            cb.send(target.getName() + " rolled " + defenseRoll + " defence points.");
-            cb.send(name + " hits " + target.getName() + " with Blizzard for " + damageTaken + " damage.");
+            int damageTaken = attackRoll - defenseRoll;
             target.getHealth().takeDamage(damageTaken);
+
+            cb.send(target.getName() + " rolled " + defenseRoll + " defense points.");
+            cb.send(name + " hits " + target.getName() + " with Blizzard for " + damageTaken + " damage.");
 
             if (!target.alive()) {
                 cb.send(target.getName() + " has been killed by " + name + "'s Blizzard.");

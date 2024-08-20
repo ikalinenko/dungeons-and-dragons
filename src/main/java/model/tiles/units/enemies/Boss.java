@@ -44,10 +44,11 @@ public class Boss extends Monster implements HeroicUnit {
         if (isInVisionRange(targetPlayer)) {
             int attackRoll = attack;
             int defenseRoll = targetPlayer.defend();
-            int damageTaken = targetPlayer.getHealth().takeDamage(attackRoll - defenseRoll);
+            int damageTaken = attackRoll - defenseRoll;
+            targetPlayer.getHealth().takeDamage(damageTaken);
 
             cb.send(name + " attacks " + targetPlayer.getName() + " for " + attackRoll + " damage.");
-            cb.send(targetPlayer.getName() + " rolled " + defenseRoll + " defence points.");
+            cb.send(targetPlayer.getName() + " rolled " + defenseRoll + " defense points.");
             cb.send(name + " hit " + targetPlayer.getName() + " for " + damageTaken + " damage.");
 
             if (!targetPlayer.alive()) {
