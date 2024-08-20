@@ -60,4 +60,9 @@ public abstract class Enemy extends Unit {
 
     // Method to handle visibility logic
     public abstract void updateVisibility(Board board);
+
+    public String description() {
+        return super.description() +
+                ", Experience: " + experience;
+    }
 }
