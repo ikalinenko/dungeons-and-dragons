@@ -106,15 +106,16 @@ public class Hunter extends Player implements HeroicUnit {
             closestEnemy.onDeath();
         }
 
-
         //cb.send(description());
     }
 
-
+    /*
     private boolean hasEnemyInRange() {
         return findClosestEnemy() != null;
     }
+     */
 
+    /*
     private Enemy findClosestEnemy() {
         List<Enemy> enemiesInRange = getEnemies().stream()
                 .filter(e -> e.getPosition().Range(position) <= range)
@@ -143,6 +144,7 @@ public class Hunter extends Player implements HeroicUnit {
     private List<Enemy> getEnemies() {
         return List.of();
     }
+     */
 
     @Override
     public String description() {

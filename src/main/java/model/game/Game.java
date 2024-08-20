@@ -20,8 +20,8 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class Game {
-    private Board board;
     private Level level;
+    private Board board;
     private int currentLevelIndex = 0;
 
     private ScannerInputReader inputReader;

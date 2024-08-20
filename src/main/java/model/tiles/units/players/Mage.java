@@ -26,8 +26,6 @@ public class Mage extends Player implements HeroicUnit {
     protected static final int MANA_GAIN = 25;
     protected static final int SPELL_GAIN = 10;
 
-    private List<Enemy> enemies;
-
     public Mage(String name, int hitPoints, int attack, int defense,
                 int manaPool, int manaCost, int spellPower, int hitCount, int abilityRange) {
         super(name, hitPoints, attack, defense);
@@ -64,12 +62,6 @@ public class Mage extends Player implements HeroicUnit {
                 + spellPowerGain() + " Spell Power.";
 
         cb.send(mageMessage);
-
-        /*
-        cb.send(name + " reached level " + level + ": +"
-                + healthGain() + " Health, +" + attackGain() + " Attack, +" + defenseGain() + " Defense, +"
-                + manaGain() + " Maximum Pana, +" + spellPowerGain() + " Spell Power.");
-         */
     }
 
     @Override
@@ -94,14 +86,6 @@ public class Mage extends Player implements HeroicUnit {
                 .toList();
 
         currentMana -= manaCost;
-
-        /*
-        if (enemiesInRange.isEmpty()) {
-            cb.send(name + " cast Blizzard but there were no enemies in range.");
-            cb.send(description());
-            return;
-        }
-         */
 
         int hits = 0;
 
@@ -134,14 +118,6 @@ public class Mage extends Player implements HeroicUnit {
 
         //cb.send(description());
     }
-
-
-    /*
-    private List<Enemy> getEnemies() {
-        // Implement this method to retrieve the list of enemies
-        return List.of(); // Placeholder
-    }
-    */
 
     @Override
     public String description() {

@@ -20,8 +20,6 @@ public class Warrior extends Player implements HeroicUnit {
     protected static final int EXTRA_ATTACK_GAIN = 2;
     protected static final int EXTRA_DEFENSE_GAIN = 1;
 
-    //private List<Enemy> enemies;
-
     public Warrior(String name, int hitPoints, int attack, int defense, int abilityCooldown) {
         super(name, hitPoints, attack, defense);
         this.abilityCooldown = abilityCooldown;

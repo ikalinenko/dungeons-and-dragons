@@ -25,7 +25,7 @@ public abstract class Player extends Unit {
     protected int level;
     protected int experience;
 
-    protected ScannerInputReader inputReader;
+    //protected ScannerInputReader inputReader;
 
     protected boolean abilityUsedThisTurn = false;
 

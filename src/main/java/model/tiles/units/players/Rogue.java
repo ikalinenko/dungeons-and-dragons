@@ -67,14 +67,6 @@ public class Rogue extends Player implements HeroicUnit {
 
         currentEnergy -= cost;
 
-        /*
-        if (enemiesInRange.isEmpty()) {
-            cb.send(name + " casted Fan of Knives but there were no enemies in range.");
-            cb.send(description());
-            return;
-        }
-         */
-
         cb.send(name + " casts Fan of Knives.");
 
         for (Enemy target : enemiesInRange) {
@@ -96,10 +88,6 @@ public class Rogue extends Player implements HeroicUnit {
         }
 
         //cb.send(description());
-    }
-
-    private List<Enemy> getEnemies() {
-        return List.of();
     }
 
     @Override

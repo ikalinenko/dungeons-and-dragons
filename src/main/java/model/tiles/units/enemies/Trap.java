@@ -93,6 +93,7 @@ public class Trap extends Enemy {
         this.position = position;
     }
 
+    /*
     public char getDisplayCharacter() {
         if (isVisible()) {
             return tile; // or any character representing the Trap
@@ -100,4 +101,5 @@ public class Trap extends Enemy {
             return Empty.getTile(); // or the character for an empty tile
         }
     }
+     */
 }
