@@ -95,7 +95,7 @@ public class Mage extends Player implements HeroicUnit {
             // Randomly select a target
             Enemy target = enemiesInRange.get(generator.generate(enemiesInRange.size()));
 
-            int attackRoll = this.spellPower;
+            int attackRoll = spellPower;
             int defenseRoll = target.defend();
             int damageTaken = attackRoll - defenseRoll;
             target.getHealth().takeDamage(damageTaken);

@@ -26,29 +26,49 @@ public class Level {
         this.board = board;
     }
 
+    protected void playerAction() {
+        // Handle player action based on input (move, attack, cast ability)
+        String action = inputReader.nextAction();
+        board.getPlayer().performAction(action, board);
+        board.getPlayer().onTurn();
+        board.removeDeadEnemies();
+    }
+
+    protected void enemiesAction() {
+        for (Enemy enemy : board.getEnemies()) {
+            enemy.onEnemyTurn(board.getPlayer(), board);
+        }
+        board.updateTrapVisibility();
+    }
+
     public void run() {
         Player player = board.getPlayer();
+
         cb.send(board.toString());
-        cb.send(board.getPlayer().description());
-        cb.send("Your position is " + player.getPosition());
+        cb.send(player.description());
+        //cb.send("Your position is " + player.getPosition());
 
         while (!isLevelFinished()) {
-            String action = inputReader.nextAction();
-
+            /*
             // Player's turn
-            //player.onTurn();
+            String action = inputReader.nextAction();
             player.performAction(action, board);
             player.onTurn();
-
             board.removeDeadEnemies();
+             */
 
+            playerAction();
+
+            /*
             // Enemies' turns
             for (Enemy enemy : board.getEnemies()) {
                 enemy.onEnemyTurn(player, board);
             }
-
             board.removeDeadEnemies();
             board.updateTrapVisibility();
+             */
+
+            enemiesAction();
 
             // Print the board state after the turn
             cb.send(board.toString());

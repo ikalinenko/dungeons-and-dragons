@@ -71,7 +71,7 @@ public class Rogue extends Player implements HeroicUnit {
 
         for (Enemy target : enemiesInRange) {
 
-            int attackRoll = this.attack();
+            int attackRoll = attack;
             int defenseRoll = target.defend();
             int damageTaken = attackRoll - defenseRoll;
             target.getHealth().takeDamage(damageTaken);

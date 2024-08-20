@@ -118,13 +118,6 @@ public class Game {
         endGame();
     }
 
-
-    protected void playerAction() {
-        // Handle player action based on input (move, attack, cast ability)
-        String action = inputReader.nextAction();
-        board.getPlayer().performAction(action, board);
-    }
-
     /*
     public boolean isGameOver() {
         Player player = board.getPlayer();
@@ -155,10 +148,12 @@ public class Game {
         return !board.getPlayer().alive() || (currentLevelIndex > getTotalLevels());
     }
 
+    /*
     private void displayBoardState() {
         cb.send(board.toString());
         cb.send(board.getPlayer().description());
     }
+     */
 
     private void endGame() {
         Player player = board.getPlayer();

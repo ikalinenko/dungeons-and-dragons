@@ -87,11 +87,11 @@ public class Hunter extends Player implements HeroicUnit {
         arrowsCount--;
 
         // Find the closest enemy or pick one randomly if there are multiple at the same distance
-        Enemy closestEnemy = enemiesInRange.get(generator.generate(enemiesInRange.size()));
+        Enemy closestEnemy = findClosestEnemy(enemiesInRange);
 
         cb.send(name + " fired an arrow at " + closestEnemy.getName() + ".");
 
-        int attackRoll = this.attack();
+        int attackRoll = attack;
         int defenseRoll = closestEnemy.defend();
         int damageTaken = attackRoll - defenseRoll;
         closestEnemy.getHealth().takeDamage(damageTaken);
@@ -109,42 +109,25 @@ public class Hunter extends Player implements HeroicUnit {
         //cb.send(description());
     }
 
-    /*
-    private boolean hasEnemyInRange() {
-        return findClosestEnemy() != null;
-    }
-     */
-
-    /*
-    private Enemy findClosestEnemy() {
-        List<Enemy> enemiesInRange = getEnemies().stream()
-                .filter(e -> e.getPosition().Range(position) <= range)
-                .collect(Collectors.toList());
-
-        // Find the minimum range
-        double minRange = enemiesInRange.stream()
-                .mapToDouble(e -> e.getPosition().Range(position))
+    private Enemy findClosestEnemy(List<Enemy> enemiesInRange) {
+        // Find the minimum distance to any enemy
+        double minDistance = enemiesInRange.stream()
+                .mapToDouble(enemy -> position.Range(enemy.getPosition()))
                 .min()
-                .orElse(Double.MAX_VALUE); // Handle the case where no enemies are in range
+                .orElse(Double.MAX_VALUE);
 
-        // Filter enemies with the minimum range
+        // Collect all enemies that are at the minimum distance
         List<Enemy> closestEnemies = enemiesInRange.stream()
-                .filter(e -> e.getPosition().Range(position) == minRange)
-                .collect(Collectors.toList());
+                .filter(enemy -> position.Range(enemy.getPosition()) == minDistance)
+                .toList();
 
-        // Randomly select one enemy from the closest enemies
-        if (!closestEnemies.isEmpty()) {
-            int randomIndex = generator.generate(closestEnemies.size());
-            return closestEnemies.get(randomIndex);
-        }
-
-        return null; // No enemies in range
+        // Randomly select one if there are multiple closest enemies
+        return closestEnemies.get(generator.generate(closestEnemies.size()));
     }
 
     private List<Enemy> getEnemies() {
         return List.of();
     }
-     */
 
     @Override
     public String description() {
