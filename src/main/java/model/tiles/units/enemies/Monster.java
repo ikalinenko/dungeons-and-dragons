@@ -31,11 +31,11 @@ public class Monster extends Enemy {
         }
     }
 
-    private boolean isInVisionRange(Player player) {
+    protected boolean isInVisionRange(Player player) {
         return position.Range(player.getPosition()) < visionRange;
     }
 
-    private void chasePlayer(Player player, Board board) {
+    protected void chasePlayer(Player player, Board board) {
         Position newPosition;
         Position playerPos = player.getPosition();
 
@@ -61,45 +61,19 @@ public class Monster extends Enemy {
         }
     }
 
-    private void randomMove(Board board) {
+    protected void randomMove(Board board) {
         int move = generator.generate(5);
 
         switch (move) {
-            case 0:
-                moveLeft(board);
-                break;
-            case 1:
-                moveRight(board);
-                break;
-            case 2:
-                moveUp(board);
-                break;
-            case 3:
-                moveDown(board);
-                break;
-            default:
-                // Stay
-                break;
+            case 0 -> moveLeft(board);
+            case 1 -> moveRight(board);
+            case 2 -> moveUp(board);
+            case 3 -> moveDown(board);
+            default -> {
+            }
+            // Stay
         }
     }
-
-    /*
-    private void moveLeft() {
-        position.setX(position.getX() - 1);
-    }
-
-    private void moveRight() {
-        position.setX(position.getX() + 1);
-    }
-
-    private void moveUp() {
-        position.setY(position.getY() - 1);
-    }
-
-    private void moveDown() {
-        position.setY(position.getY() + 1);
-    }
-     */
 
     @Override
     public String description() {

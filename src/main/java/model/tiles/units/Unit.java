@@ -118,7 +118,7 @@ public abstract class Unit extends Tile {
 
             // Place player at the new position
             board.updateTile(position, this);  // 'this' refers to the Unit (Tile)
-            cb.send(getName() + " moved to " + newPosition);
+            //cb.send(getName() + " moved to " + newPosition);
         } else {
             //cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
         }

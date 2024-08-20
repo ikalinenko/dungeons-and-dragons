@@ -135,7 +135,6 @@ public abstract class Player extends Unit {
             case "e":
                 abilityUsedThisTurn = true;
                 castAbility(board);
-                // Cast special ability
                 break;
             case "q":
                 // Do nothing
@@ -143,7 +142,7 @@ public abstract class Player extends Unit {
                 cb.send(getName() + " chose to wait.");
                 break;
             default:
-                cb.send("Invalid action. Please choose a valid action.");
+                cb.send("Please choose a valid action (a/s/d/q/w/e).");
                 break;
         }
 

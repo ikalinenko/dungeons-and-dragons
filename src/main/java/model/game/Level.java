@@ -53,7 +53,7 @@ public class Level {
             // Print the board state after the turn
             cb.send(board.toString());
             cb.send(player.description());
-            cb.send(board.getEnemies().toString());
+            //cb.send(board.getEnemies().toString());
         }
     }
 
