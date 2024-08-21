@@ -19,6 +19,7 @@ import main.java.utils.generators.Generator;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -44,13 +45,6 @@ public class LevelInitializer {
         this.generator = new RandomGenerator(); // Default generator
         this.messageCallback = System.out::println; // Default callback
         this.deathCallback = () -> System.out.println("You Lost."); // Default callback
-    }
-
-    public LevelInitializer(TileFactory tileFactory, Generator generator, MessageCallBack messageCallback, DeathCallBack deathCallback) {
-        this.tileFactory = tileFactory;
-        this.generator = generator;
-        this.messageCallback = messageCallback;
-        this.deathCallback = deathCallback;
     }
 
     public void initLevel(String levelPath) {
@@ -111,9 +105,11 @@ public class LevelInitializer {
         this.board = new Board(tiles, player, enemies, width);
     }
 
+    /*
     public void loadNextLevel(String nextLevelPath) {
         initLevel(nextLevelPath);
     }
+     */
 
     public List<Tile> getTiles() {
         return tiles;
@@ -137,10 +133,4 @@ public class LevelInitializer {
             throw new RuntimeException("Error calculating board width: " + e.getMessage());
         }
     }
-
-    protected int getTotalLevels() {
-        // Return the total number of levels available in the game
-        return 4; // Example value, replace with actual logic
-    }
-
 }

@@ -83,7 +83,6 @@ public class Board {
         }
     }
 
-
     /*
     public void removeEnemy(Enemy enemy) {
         board.put(enemy.getPosition(), new Empty());

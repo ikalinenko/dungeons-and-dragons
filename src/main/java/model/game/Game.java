@@ -1,6 +1,7 @@
 package main.java.model.game;
 
 import main.java.control.initializers.BoardLoader;
+import main.java.control.initializers.GameInitializer;
 import main.java.control.initializers.LevelInitializer;
 import main.java.control.initializers.LevelInitializer;
 import main.java.model.game.Level;
@@ -19,22 +20,29 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
+import java.io.IOException;
+import java.nio.file.*;
+import java.util.stream.Stream;
+
 public class Game {
     private Level level;
     private Board board;
+
     private int currentLevelIndex = 0;
 
     private ScannerInputReader inputReader;
+    private GameInitializer gameInitializer;
     private LevelInitializer levelInitializer;
     private MessageCallBack cb;
     private DeathCallBack dcb;
 
-    public Game(Board board, LevelInitializer levelInit, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb) {
+    public Game(Board board, LevelInitializer levelInit, ScannerInputReader inputReader, MessageCallBack cb, DeathCallBack dcb, String levelsPath) {
         this.board = board;
         this.levelInitializer = levelInit;
         this.inputReader = inputReader;
         this.cb = cb;
         this.dcb = dcb;
+        this.gameInitializer = new GameInitializer(levelsPath);
     }
 
     /*
@@ -109,13 +117,24 @@ public class Game {
 
     public void run() {
         while (!isGameOver()) {
-            //level = levels[i];
-            level.run();
+            runCurrentLevel();
+
             if (level.isLevelFinished()) {
                 loadNextLevel();
             }
         }
+
         endGame();
+    }
+
+    private void runCurrentLevel() {
+        level.run();
+    }
+
+    private void loadNextLevel() {
+        gameInitializer.loadNextLevel(levelInitializer);
+        this.board = levelInitializer.getBoard();
+        this.level = new Level(board, inputReader, cb, levelInitializer);
     }
 
     /*
@@ -134,18 +153,13 @@ public class Game {
     }
      */
 
-    private void loadNextLevel() {
-        currentLevelIndex++;
-        if (currentLevelIndex <= getTotalLevels()) {
-            String nextLevelPath = getLevelPath(currentLevelIndex);
-            levelInitializer.loadNextLevel(nextLevelPath);
-            this.board = levelInitializer.getBoard();
-            this.level = new Level(board, inputReader, cb, levelInitializer); // Update level reference with the new board
-        }
+    public boolean isGameOver() {
+        Player player = board.getPlayer();
+        return !player.alive() || allLevelsPassed();
     }
 
-    public boolean isGameOver() {
-        return !board.getPlayer().alive() || (currentLevelIndex > getTotalLevels());
+    public boolean allLevelsPassed() {
+        return gameInitializer.getCurrentLevelIndex() > gameInitializer.getTotalLevels();
     }
 
     /*
@@ -173,13 +187,4 @@ public class Game {
         this.board = board;
     }
 
-    private int getTotalLevels() {
-        // Return the total number of levels available in the game
-        return 4; // Example value, replace with actual logic
-    }
-
-    private String getLevelPath(int levelIndex) {
-        // Return the path to the level file based on the level index
-        return "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir\\level" + levelIndex + ".txt"; // Example path format
-    }
 }
