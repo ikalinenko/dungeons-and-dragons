@@ -6,11 +6,6 @@ import main.java.utils.generators.Generator;
 import main.java.utils.generators.RandomGenerator;
 import main.java.model.game.Board;
 import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.RandomGenerator;
-import main.java.utils.generators.Generator;
 
 public class Monster extends Enemy implements HeroicUnit {
     protected int visionRange;
@@ -38,11 +33,10 @@ public class Monster extends Enemy implements HeroicUnit {
 
     @Override
     public void castAbility(Board board) {
-        // Get the player from the board (assuming there is a method to retrieve the targeted player)
         Player targetPlayer = board.getPlayer();
 
         if (isInVisionRange(targetPlayer)) {
-            // Cast the ability by attacking the player
+
             int attackRoll = attack();
             int defenseRoll = targetPlayer.defend();
             int damageTaken = attackRoll - defenseRoll;

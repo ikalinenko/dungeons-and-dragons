@@ -1,17 +1,10 @@
 package main.java.model.tiles.units.players;
 
 import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.players.Player;
 import main.java.model.game.Board;
 import main.java.model.tiles.units.enemies.Enemy;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Hunter extends Player implements HeroicUnit {
     protected int range;
@@ -86,7 +79,6 @@ public class Hunter extends Player implements HeroicUnit {
 
         arrowsCount--;
 
-        // Find the closest enemy or pick one randomly if there are multiple at the same distance
         Enemy closestEnemy = findClosestEnemy(enemiesInRange);
 
         cb.send(name + " fired an arrow at " + closestEnemy.getName() + ".");
@@ -101,12 +93,9 @@ public class Hunter extends Player implements HeroicUnit {
         cb.send(name + " hit " + closestEnemy.getName() + " for " + damageTaken + " damage.");
 
         if (!closestEnemy.alive()) {
-            cb.send(closestEnemy.getName() + " has been killed by " + name + "'s arrow.");
-            addExperience(closestEnemy.experience());
             closestEnemy.onDeath();
+            addExperience(closestEnemy.experience());
         }
-
-        //cb.send(description());
     }
 
     private Enemy findClosestEnemy(List<Enemy> enemiesInRange) {
@@ -123,10 +112,6 @@ public class Hunter extends Player implements HeroicUnit {
 
         // Randomly select one if there are multiple closest enemies
         return closestEnemies.get(generator.generate(closestEnemies.size()));
-    }
-
-    private List<Enemy> getEnemies() {
-        return List.of();
     }
 
     @Override

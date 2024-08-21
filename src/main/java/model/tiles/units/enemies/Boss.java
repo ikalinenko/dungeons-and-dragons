@@ -2,13 +2,7 @@ package main.java.model.tiles.units.enemies;
 
 import main.java.model.tiles.units.HeroicUnit;
 import main.java.model.game.Board;
-import main.java.model.tiles.units.HeroicUnit;
 import main.java.model.tiles.units.players.Player;
-import main.java.model.tiles.units.enemies.Enemy;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
 
 public class Boss extends Monster implements HeroicUnit {
     protected int abilityFrequency;

@@ -4,12 +4,6 @@ import main.java.model.tiles.units.HeroicUnit;
 import main.java.utils.generators.RandomGenerator;
 import main.java.model.game.Board;
 import main.java.model.tiles.units.enemies.Enemy;
-import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
-import main.java.utils.generators.RandomGenerator;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -92,7 +86,7 @@ public class Mage extends Player implements HeroicUnit {
         cb.send(name + " casts Blizzard.");
 
         while (hits < hitCount && !enemiesInRange.isEmpty()) {
-            // Randomly select a target
+
             Enemy target = enemiesInRange.get(generator.generate(enemiesInRange.size()));
 
             int attackRoll = spellPower;
@@ -100,23 +94,22 @@ public class Mage extends Player implements HeroicUnit {
             int damageTaken = attackRoll - defenseRoll;
             target.getHealth().takeDamage(damageTaken);
 
+            cb.send(name + " attacks " + target.getName() + " for " + attackRoll + " damage.");
             cb.send(target.getName() + " rolled " + defenseRoll + " defense points.");
             cb.send(name + " hits " + target.getName() + " with Blizzard for " + damageTaken + " damage.");
 
             if (!target.alive()) {
-                cb.send(target.getName() + " has been killed by " + name + "'s Blizzard.");
-                addExperience(target.experience());
                 target.onDeath();
+                addExperience(target.experience());
             }
 
             hits++;
+
             // Re-filter the enemies list to ensure only living enemies are targeted
             enemiesInRange = enemiesInRange.stream()
                     .filter(Enemy::alive)
                     .toList();
         }
-
-        //cb.send(description());
     }
 
     @Override

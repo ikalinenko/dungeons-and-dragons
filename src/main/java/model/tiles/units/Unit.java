@@ -10,15 +10,7 @@ import main.java.utils.Position;
 import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.Generator;
-import main.java.model.tiles.Empty;
-import main.java.model.tiles.Tile;
-import main.java.model.tiles.Wall;
 import main.java.model.game.Board;
-import main.java.utils.Health;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
 
 public abstract class Unit extends Tile {
     protected String name;
@@ -66,7 +58,6 @@ public abstract class Unit extends Tile {
         cb.send(this.description());
         cb.send(defender.description());
 
-        // Assuming this is the attacker
         int attackRoll = this.attack();
         int defenseRoll = defender.defend();
         int damageTaken = defender.health.takeDamage(attackRoll - defenseRoll);
@@ -119,14 +110,14 @@ public abstract class Unit extends Tile {
             // Place player at the new position
             board.updateTile(position, this);  // 'this' refers to the Unit (Tile)
             //cb.send(getName() + " moved to " + newPosition);
-        } else {
-            //cb.send(getName() + " cannot move to " + newPosition + ". It's blocked.");
         }
     }
 
+    /*
     public void interact(Tile t) {
         t.accept(this);
     }
+     */
 
     public void visit(Empty e) {
         swapPosition(e);

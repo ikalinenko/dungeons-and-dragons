@@ -1,15 +1,8 @@
 package main.java.model.tiles.units.players;
 
 import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.players.Player;
 import main.java.model.game.Board;
-import main.java.model.tiles.units.HeroicUnit;
-import main.java.model.tiles.units.Unit;
 import main.java.model.tiles.units.enemies.Enemy;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.Generator;
 
 import java.util.List;
 
@@ -60,7 +53,6 @@ public class Rogue extends Player implements HeroicUnit {
             return;
         }
 
-        // Get enemies from the board within range
         List<Enemy> enemiesInRange = board.getEnemies().stream()
                 .filter(e -> e.getPosition().Range(position) < 2)
                 .toList();
@@ -81,13 +73,10 @@ public class Rogue extends Player implements HeroicUnit {
             cb.send(name + " hits " + target.getName() + " with Fan of Knives for " + damageTaken + " damage.");
 
             if (!target.alive()) {
-                cb.send(target.getName() + " has been killed by " + name + "'s Fan of Knives.");
-                addExperience(target.experience());
                 target.onDeath();
+                addExperience(target.experience());
             }
         }
-
-        //cb.send(description());
     }
 
     @Override

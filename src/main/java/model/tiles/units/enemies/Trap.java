@@ -27,10 +27,10 @@ public class Trap extends Enemy {
 
     @Override
     public void onEnemyTurn(Player player, Board board) {
-        updateState(); // Update the trap's state
+        updateState();
 
         if (isInRange(player)) {
-            visit(player); // Perform actions if player is in range
+            visit(player);
         }
     }
 
@@ -58,13 +58,6 @@ public class Trap extends Enemy {
     private boolean isInRange(Player player) {
         return position.Range(player.getPosition()) < 2;
     }
-
-    /*
-    private void attack(Player player) {
-        player.getHealth().takeDamage(this.attack);
-        cb.send(getName() + " attacked " + player.getName() + " for " + this.attack + " damage.");
-    }
-     */
 
     public Position getPosition() {
         return position;

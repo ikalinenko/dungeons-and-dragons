@@ -1,12 +1,8 @@
 package main.java.model.game;
 
 import main.java.control.initializers.LevelInitializer;
-import main.java.control.initializers.LevelInitializer;
 import main.java.model.tiles.units.enemies.Enemy;
 import main.java.model.tiles.units.players.Player;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.view.InputReader;
-import main.java.model.game.Board;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.view.InputReader;
 
@@ -15,9 +11,6 @@ public class Level {
     protected InputReader inputReader;
     protected MessageCallBack cb;
     protected LevelInitializer levelInitializer;
-
-    //protected Player player;
-    //protected List<Enemy> enemies = new ArrayList<>();
 
     public Level(Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
         this.inputReader = inputReader;
@@ -44,18 +37,16 @@ public class Level {
     public void run() {
         Player player = board.getPlayer();
 
-        cb.send(board.toString());
-        cb.send(player.description());
         //cb.send("Your position is " + player.getPosition());
 
         while (!isLevelFinished()) {
 
+            cb.send(board.toString());
+            cb.send(board.getPlayer().description());
+
             playerTick();
             enemiesTick();
 
-            // Print the board state after game tick
-            cb.send(board.toString());
-            cb.send(player.description());
             //cb.send(board.getEnemies().toString());
         }
     }
