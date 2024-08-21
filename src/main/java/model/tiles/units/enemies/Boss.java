@@ -24,7 +24,7 @@ public class Boss extends Monster implements HeroicUnit {
     @Override
     public void onEnemyTurn(Player player, Board board) {
         if (isInVisionRange(player)) {
-            if (combatTicks == abilityFrequency) {
+            if (combatTicks == abilityFrequency - 1) {
                 combatTicks = INIT_COMBAT_TICKS;
                 castAbility(board);
             } else {

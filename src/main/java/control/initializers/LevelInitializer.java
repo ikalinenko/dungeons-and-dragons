@@ -33,18 +33,18 @@ public class LevelInitializer {
 
     private TileFactory tileFactory;
     private Generator generator;
-    private MessageCallBack messageCallback;
-    private DeathCallBack deathCallback;
+    private MessageCallBack cb;
+    private DeathCallBack dcb;
 
 
-    public LevelInitializer(int playerID) {
+    public LevelInitializer(int playerID, Generator generator, MessageCallBack cb, DeathCallBack dcb) {
         TileFactory tileFactory = new TileFactory();
         this.tileFactory = tileFactory;
         this.playerID = playerID;
         this.player = tileFactory.producePlayer(playerID); // Ensure player is created
-        this.generator = new RandomGenerator(); // Default generator
-        this.messageCallback = System.out::println; // Default callback
-        this.deathCallback = () -> System.out.println("You Lost."); // Default callback
+        this.generator = generator; // Default generator
+        this.cb = cb; // Default callback
+        this.dcb = dcb; // Default callback
     }
 
     public void initLevel(String levelPath) {
@@ -80,12 +80,12 @@ public class LevelInitializer {
                         if (player == null) {
                             throw new IllegalStateException("Player has not been initialized.");
                         }
-                        player.initialize(position, generator, messageCallback, deathCallback);
+                        player.initialize(position, generator, cb, dcb);
                         tile = player;
                         break;
                     default:
                         if (TileFactory.enemyTypes.containsKey(c)) {
-                            Enemy enemy = tileFactory.produceEnemy(c, position, generator, messageCallback, deathCallback);
+                            Enemy enemy = tileFactory.produceEnemy(c, position, generator, cb, dcb);
                             tile = enemy;
                             enemies.add(enemy);
                         } else {

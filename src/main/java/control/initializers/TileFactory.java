@@ -52,12 +52,14 @@ public class TileFactory {
     public TileFactory() {
     }
 
+    /*
     public Player producePlayer(int playerID, Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
         Supplier<Player> supplier = playerTypes.get(playerID - 1); // Ensure playerID is valid
         Player player = supplier.get();
         player.initialize(p, gen, cb, dcb);
         return player;
     }
+     */
 
     public Player producePlayer(int playerID) {
         Supplier<Player> supp = playerTypes.get(playerID-1);
