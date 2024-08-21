@@ -35,7 +35,6 @@ public class Board {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for(Map.Entry<Position, Tile> entry : board.entrySet()){
-            //sb.append(entry.getKey());
             sb.append(entry.getValue().toString());
             if(entry.getKey().getX() == width - 1){
                 sb.append("\n");

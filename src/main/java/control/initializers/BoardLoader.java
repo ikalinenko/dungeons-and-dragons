@@ -16,16 +16,17 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class BoardLoader {
+    /*
     private List<Tile> tiles;
     private Player player;
     private List<Enemy> enemies;
     private int width;
 
-    public BoardLoader(List<Tile> tiles, Player player, List<Enemy> enemies, String levelPath) {
+    public BoardLoader(List<Tile> tiles, Player player, List<Enemy> enemies) {
         this.tiles = tiles;
         this.player = player;
         this.enemies = enemies;
-        this.width = calculateWidth(levelPath);
+        //this.width = calculateWidth(levelPath);
     }
 
     public Board loadBoard() {
@@ -43,13 +44,5 @@ public class BoardLoader {
 
         return new Board(tiles, player, enemies, width);
     }
-
-    private int calculateWidth(String levelPath) {
-        try {
-            String firstLine = Files.readAllLines(Paths.get(levelPath)).get(0);
-            return firstLine.length();
-        } catch (IOException e) {
-            throw new RuntimeException("Error calculating board width: " + e.getMessage());
-        }
-    }
+     */
 }
