@@ -49,9 +49,9 @@ public class Trap extends Enemy {
     @Override
     public void updateVisibility(Board board) {
         if (isVisible()) {
-            this.tile = trapTile;
+            this.setTile(trapTile);
         } else {
-            this.tile = Empty.getTile();
+            this.setTile(Empty.getEmptyTile());
         }
     }
 

@@ -81,9 +81,11 @@ public abstract class Player extends Unit {
 
     public void visit(Enemy e) {
         battle(e);
-        if(!e.alive()) {
+        if (!e.alive()) {
             this.swapPosition(e);
-            e.tile = (PLAYER_TILE);
+
+            e.setTile(this.getTile());
+
             e.onDeath();
             addExperience(e.experience());
         }

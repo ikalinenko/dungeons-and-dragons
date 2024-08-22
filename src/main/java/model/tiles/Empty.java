@@ -14,7 +14,7 @@ public class Empty extends Tile {
         unit.visit(this);
     }
 
-    public static char getTile() {
+    public static char getEmptyTile() {
         return EMPTY_TILE;
     }
 

@@ -4,8 +4,8 @@ import main.java.model.tiles.units.Unit;
 import main.java.utils.Position;
 
 public abstract class Tile {
-    public char tile;
-    public Position position;
+    protected char tile;
+    protected Position position;
 
     public Tile(char tile) {
         this.tile = tile;
@@ -31,6 +31,14 @@ public abstract class Tile {
     }
 
     public abstract void accept(Unit unit);
+
+    public char getTile() {
+        return tile;
+    }
+
+    public void setTile(char tile) {
+        this.tile = tile;
+    }
 
     public Position getPosition() {
         return position;
