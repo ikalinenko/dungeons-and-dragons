@@ -4,7 +4,6 @@ import main.java.control.initializers.TileFactory;
 import main.java.control.initializers.LevelInitializer;
 import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.FixedGenerator;
 import main.java.utils.generators.Generator;
 import main.java.utils.generators.RandomGenerator;
 import main.java.view.ScannerInputReader;
@@ -22,21 +21,21 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Main {
-
-    /*
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java Main <levels_directory_path>");
+            System.out.println("Error: this program needs a path to the levels directory as an argument.");
             return;
         }
 
+        String levelsDirectory = args[0];
+
+
+    /*
+    public static void main(String[] args) throws Exception {
+        //String levelsDirectory = "src/main/resources/levels_dir";
+        String levelsDirectory = "C:\\Users\\AM\\levels_dir";
      */
 
-
-    public static void main(String[] args) throws Exception {
-        String levelsDirectoryPath = "src/main/resources/levels_dir";
-        //String levelsDirectoryPath = "C:/Users/AM/levels_dir";
-        //String levelsDirectoryPath = "C:\\Users\\AM\\IdeaProjects\\Assignment3_OOP\\out\\artifacts\\Assignment3_OOP_jar\\levels_dir";
 
         // Initialize tile factory and player options
         TileFactory tileFactory = new TileFactory();
@@ -60,14 +59,14 @@ public class Main {
         }
 
         // Initialize callbacks, generator, input reader
-        Generator generator = new RandomGenerator(); // or any other generator you prefer
+        Generator generator = new RandomGenerator(); // Fixed/Random
         MessageCallBack cb = System.out::println;
         DeathCallBack dcb = () -> System.out.println("You Lost.");
-        ScannerInputReader inputReader = new ScannerInputReader();
+        ScannerInputReader inputReader = new ScannerInputReader(); // FileInput/Hardcoded/Scanner
 
         try {
             // Process first level
-            var pathToLevel1 = Files.list(Paths.get(levelsDirectoryPath))
+            var pathToLevel1 = Files.list(Paths.get(levelsDirectory))
                     .sorted()
                     .collect(Collectors.toList())
                     .get(0);
@@ -82,7 +81,7 @@ public class Main {
 
             // Initialize the level and game with the new board
             Level level = new Level(board, inputReader, cb, levelInit);
-            Game game = new Game(levelsDirectoryPath, levelInit, inputReader, board, cb);
+            Game game = new Game(levelsDirectory, levelInit, inputReader, board, cb);
             game.setLevel(level);
 
             // Run the game

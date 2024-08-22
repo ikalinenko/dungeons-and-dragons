@@ -30,7 +30,6 @@ public abstract class Player extends Unit {
 
     public Player initialize(Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
         super.initialize(p, gen, cb, dcb);
-        //System.out.println("Player initialized at position: " + position);
         return this;
     }
 

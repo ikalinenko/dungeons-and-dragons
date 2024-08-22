@@ -24,17 +24,8 @@ public class Position implements Comparable<Position> {
         return y;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
     @Override
     public int compareTo(Position other) {
-        // Compare by y-coordinate first, then by x-coordinate
         int yCompare = Integer.compare(this.y, other.y);
         if (yCompare != 0) {
             return yCompare;

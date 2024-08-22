@@ -33,10 +33,10 @@ public class LevelInitializer {
         TileFactory tileFactory = new TileFactory();
         this.tileFactory = tileFactory;
         this.playerID = playerID;
-        this.player = tileFactory.producePlayer(playerID); // Ensure player is created
-        this.generator = generator; // Default generator
-        this.cb = cb; // Default callback
-        this.dcb = dcb; // Default callback
+        this.player = tileFactory.producePlayer(playerID);
+        this.generator = generator;
+        this.cb = cb;
+        this.dcb = dcb;
     }
 
     public void initLevel(String levelPath) {
@@ -47,10 +47,8 @@ public class LevelInitializer {
             throw new RuntimeException("Error reading level file: " + e.getMessage(), e);
         }
 
-        // Calculate width using the static method
         int width = calculateWidth(levelPath);
 
-        // Initialize the board map and tiles list
         Map<Position, Tile> board = new TreeMap<>();
         List<Tile> tiles = new ArrayList<>();
         List<Enemy> enemies = new ArrayList<>();
@@ -96,12 +94,6 @@ public class LevelInitializer {
         this.width = width; // Ensure width is correctly set
         this.board = new Board(tiles, player, enemies, width);
     }
-
-    /*
-    public void loadNextLevel(String nextLevelPath) {
-        initLevel(nextLevelPath);
-    }
-     */
 
     public List<Tile> getTiles() {
         return tiles;

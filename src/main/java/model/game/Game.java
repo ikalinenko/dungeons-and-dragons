@@ -10,8 +10,6 @@ public class Game {
     private Level level;
     private Board board;
 
-    private int currentLevelIndex = 0;
-
     private ScannerInputReader inputReader;
     private GameInitializer gameInitializer;
     private LevelInitializer levelInitializer;
@@ -23,6 +21,7 @@ public class Game {
         this.inputReader = inputReader;
         this.board = board;
         this.cb = cb;
+        loadNextLevel();
     }
 
     public void setLevel(Level level) {

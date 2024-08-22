@@ -60,25 +60,12 @@ public class Board {
             if (!enemy.alive()) {
                 Position enemyPos = enemy.getPosition();
 
-                //System.out.println("Removing dead enemy at position: " + enemyPos);
-
                 board.put(enemyPos, new Empty());
 
-                // Debug: Verify that the tile was updated correctly
-                //Tile updatedTile = board.get(enemyPos);
-                //System.out.println("Updated tile at position: " + updatedTile);
-
-                iterator.remove(); // Safely remove the enemy from the list
+                iterator.remove();
             }
         }
     }
-
-    /*
-    public void removeEnemy(Enemy enemy) {
-        board.put(enemy.getPosition(), new Empty());
-        enemies.remove(enemy);
-        }
-     */
 
     public boolean isPositionFree(Position newPosition) {
         Tile tile = board.get(newPosition);
@@ -86,18 +73,10 @@ public class Board {
     }
 
     public void updateTile(Position position, Tile newTile) {
-        // Set the position of the new tile
         newTile.setPosition(position);
 
-        // Update the board map with the new tile at the given position
         board.put(position, newTile);
     }
-
-    /*
-    public Tile getTile(Position position) {
-        return board.get(position);
-    }
-     */
 
     public Player getPlayer() {
         return player;

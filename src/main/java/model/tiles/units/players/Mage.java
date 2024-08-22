@@ -6,7 +6,6 @@ import main.java.model.game.Board;
 import main.java.model.tiles.units.enemies.Enemy;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Mage extends Player implements HeroicUnit {
     protected int currentMana;
@@ -74,7 +73,6 @@ public class Mage extends Player implements HeroicUnit {
             return;
         }
 
-        // Get enemies from the board within range
         List<Enemy> enemiesInRange = board.getEnemies().stream()
                 .filter(e -> e.getPosition().Range(position) < abilityRange)
                 .toList();

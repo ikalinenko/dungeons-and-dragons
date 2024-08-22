@@ -2,7 +2,6 @@ package main.java.model.game;
 
 import main.java.control.initializers.LevelInitializer;
 import main.java.model.tiles.units.enemies.Enemy;
-import main.java.model.tiles.units.players.Player;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.view.InputReader;
 
@@ -20,7 +19,6 @@ public class Level {
     }
 
     protected void playerTick() {
-        // Handle player action based on input (move, attack, cast ability)
         String action = inputReader.nextAction();
         board.getPlayer().performAction(action, board);
         board.getPlayer().onTurn();
@@ -35,10 +33,6 @@ public class Level {
     }
 
     public void run() {
-        Player player = board.getPlayer();
-
-        //cb.send("Your position is " + player.getPosition());
-
         while (!isLevelFinished()) {
 
             cb.send(board.toString());
@@ -46,8 +40,6 @@ public class Level {
 
             playerTick();
             enemiesTick();
-
-            //cb.send(board.getEnemies().toString());
         }
     }
 

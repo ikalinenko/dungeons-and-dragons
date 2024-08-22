@@ -66,7 +66,6 @@ public class Hunter extends Player implements HeroicUnit {
             return;
         }
 
-        // Get enemies from the board within range
         List<Enemy> enemiesInRange = board.getEnemies().stream()
                 .filter(e -> e.getPosition().Range(position) < range)
                 .toList();

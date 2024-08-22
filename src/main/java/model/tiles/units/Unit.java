@@ -69,28 +69,28 @@ public abstract class Unit extends Tile {
 
     public Position moveLeft(Board board) {
         Position newPosition = new Position(position.getX() - 1, position.getY());
-        move(newPosition, board); // Move left
+        move(newPosition, board);
 
         return newPosition;
     }
 
     public Position moveRight(Board board) {
         Position newPosition = new Position(position.getX() + 1, position.getY());
-        move(newPosition, board); // Move right
+        move(newPosition, board);
 
         return newPosition;
     }
 
     public Position moveUp(Board board) {
         Position newPosition = new Position(position.getX(), position.getY() - 1);
-        move(newPosition, board); // Move up
+        move(newPosition, board);
 
         return newPosition;
     }
 
     public Position moveDown(Board board) {
         Position newPosition = new Position(position.getX(), position.getY() + 1);
-        move(newPosition, board); // Move down
+        move(newPosition, board);
 
         return newPosition;
     }
@@ -101,23 +101,13 @@ public abstract class Unit extends Tile {
 
     public void move(Position newPosition, Board board) {
         if (isValidMove(newPosition, board)) {
-            // Replace the old position with an empty tile
             board.updateTile(position, new Empty());
 
-            // Update player's position
             position = newPosition;
 
-            // Place player at the new position
-            board.updateTile(position, this);  // 'this' refers to the Unit (Tile)
-            //cb.send(getName() + " moved to " + newPosition);
+            board.updateTile(position, this);
         }
     }
-
-    /*
-    public void interact(Tile t) {
-        t.accept(this);
-    }
-     */
 
     public void visit(Empty e) {
         swapPosition(e);
