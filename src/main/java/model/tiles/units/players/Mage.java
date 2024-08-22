@@ -119,4 +119,20 @@ public class Mage extends Player implements HeroicUnit {
                 ", Hit count: " + hitCount +
                 ", Ability range: " + abilityRange;
     }
+
+    public int getManaPool() {
+        return manaPool;
+    }
+
+    public int getSpellPower() {
+        return spellPower;
+    }
+
+    public int getCurrentMana() {
+        return currentMana;
+    }
+
+    public void setCurrentMana(int currentMana) {
+        this.currentMana = currentMana;
+    }
 }

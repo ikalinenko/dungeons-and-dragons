@@ -26,7 +26,7 @@ public class Monster extends Enemy {
         }
     }
 
-    protected boolean isInVisionRange(Player player) {
+    public boolean isInVisionRange(Player player) {
         return position.Range(player.getPosition()) < visionRange;
     }
 

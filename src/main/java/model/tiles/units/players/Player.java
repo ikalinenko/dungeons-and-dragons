@@ -136,6 +136,10 @@ public abstract class Player extends Unit {
         enemyOnPosition.ifPresent(this::visit);
     }
 
+    public int getLevel() {
+        return level;
+    }
+
     public Position getPosition() {
         return position;
     }
@@ -154,5 +158,25 @@ public abstract class Player extends Unit {
         return super.description() +
                 ", Level: " + level +
                 ", Experience: " + experience + "/" + levelRequirement();
+    }
+
+    public boolean isAbilityUsedThisTurn() {return abilityUsedThisTurn;}
+
+    public int getExperience() {return experience;}
+
+    public static int getLevelRequirement() {
+        return LEVEL_REQUIREMENT;
+    }
+
+    public static int getAttackGain() {
+        return ATTACK_GAIN;
+    }
+
+    public static int getDefenseGain() {
+        return DEFENSE_GAIN;
+    }
+
+    public static int getHealthGain() {
+        return HEALTH_GAIN;
     }
 }

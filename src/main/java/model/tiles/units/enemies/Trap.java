@@ -55,7 +55,7 @@ public class Trap extends Enemy {
         }
     }
 
-    private boolean isInRange(Player player) {
+    public boolean isInRange(Player player) {
         return position.Range(player.getPosition()) < 2;
     }
 

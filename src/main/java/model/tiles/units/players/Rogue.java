@@ -85,4 +85,8 @@ public class Rogue extends Player implements HeroicUnit {
                 ", Energy: " + currentEnergy + "/" + MAX_ENERGY +
                 ", Cost: " + cost;
     }
+
+    public int getCurrentEnergy() {return currentEnergy;}
+
+    public int setCurrentEnergy(int currentEnergy) {return this.currentEnergy = currentEnergy;}
 }

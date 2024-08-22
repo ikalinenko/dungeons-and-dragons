@@ -49,4 +49,9 @@ public abstract class Tile {
     }
 
     public abstract boolean isWalkable();
+
+    public char tileAt(Position position) {
+        this.position = position;
+        return tile;
+    }
 }

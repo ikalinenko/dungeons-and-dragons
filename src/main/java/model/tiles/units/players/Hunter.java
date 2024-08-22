@@ -97,7 +97,7 @@ public class Hunter extends Player implements HeroicUnit {
         }
     }
 
-    private Enemy findClosestEnemy(List<Enemy> enemiesInRange) {
+    public Enemy findClosestEnemy(List<Enemy> enemiesInRange) {
         // Find the minimum distance to any enemy
         double minDistance = enemiesInRange.stream()
                 .mapToDouble(enemy -> position.Range(enemy.getPosition()))
@@ -120,4 +120,14 @@ public class Hunter extends Player implements HeroicUnit {
                 ", Range: " + range +
                 ", Ticks: " + ticksCount;
     }
+
+    public int getArrowsCount() {
+        return arrowsCount;
+    }
+
+    public int getTicksCount() {
+        return ticksCount;
+    }
+
+    public int setArrowsCount(int arrowsCount) {return this.arrowsCount = arrowsCount;}
 }

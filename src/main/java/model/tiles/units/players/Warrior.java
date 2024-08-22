@@ -103,4 +103,6 @@ public class Warrior extends Player implements HeroicUnit {
         return super.description() +
                 ", Cooldown: " + remainingCooldown + "/" + abilityCooldown;
     }
+
+    public int getRemainingCooldown() {return remainingCooldown;}
 }

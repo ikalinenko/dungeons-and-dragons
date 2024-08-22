@@ -58,4 +58,6 @@ public class Boss extends Monster implements HeroicUnit {
                 ", Ability frequency: " + abilityFrequency +
                 ", Combat ticks: " + combatTicks;
     }
+
+    public int getCombatTicks() {return combatTicks;}
 }
