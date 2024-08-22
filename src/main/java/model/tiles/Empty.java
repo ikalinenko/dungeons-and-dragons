@@ -3,7 +3,7 @@ package main.java.model.tiles;
 import main.java.model.tiles.units.Unit;
 
 public class Empty extends Tile {
-    protected static final char EMPTY_TILE = ',';
+    private static final char EMPTY_TILE = ',';
 
     public Empty() {
         super(EMPTY_TILE);

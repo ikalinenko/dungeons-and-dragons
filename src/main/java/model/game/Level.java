@@ -6,10 +6,10 @@ import main.java.utils.callbacks.MessageCallBack;
 import main.java.view.InputReader;
 
 public class Level {
-    protected Board board;
-    protected InputReader inputReader;
-    protected MessageCallBack cb;
-    protected LevelInitializer levelInitializer;
+    private Board board;
+    private InputReader inputReader;
+    private MessageCallBack cb;
+    private LevelInitializer levelInitializer;
 
     public Level(Board board, InputReader inputReader, MessageCallBack cb, LevelInitializer levelInitializer) {
         this.inputReader = inputReader;

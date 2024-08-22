@@ -16,7 +16,7 @@ public abstract class Player extends Unit {
 
     protected boolean abilityUsedThisTurn = false;
 
-    public static final char PLAYER_TILE = '@';
+    protected static final char PLAYER_TILE = '@';
     protected static final int LEVEL_REQUIREMENT = 50;
     protected static final int HEALTH_GAIN = 10;
     protected static final int ATTACK_GAIN = 4;

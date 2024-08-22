@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 
 public class TileFactory {
     private Player p;
-    public static final List<Supplier<Player>> playerTypes= Arrays.asList(
+    private static final List<Supplier<Player>> playerTypes= Arrays.asList(
             () -> new Warrior("Jon Snow", 300, 30, 4, 3),
             () -> new Warrior("The Hound", 400, 20, 6, 5),
             () -> new Mage("Melisandre", 100, 5, 1, 300, 30 ,15, 5, 6),
@@ -33,7 +33,7 @@ public class TileFactory {
             () -> new Hunter("Ygritte", 220, 30, 2, 6)
     );
 
-    public static final Map<Character, Supplier<Enemy>> enemyTypes = Map.ofEntries(
+    protected static final Map<Character, Supplier<Enemy>> enemyTypes = Map.ofEntries(
             new AbstractMap.SimpleEntry<>('s', () -> new Monster('s', "Lannister Soldier", 80, 8, 3, 3, 25)),
             new AbstractMap.SimpleEntry<>('k', () -> new Monster('k', "Lannister Knight", 200, 14, 8, 4, 50)),
             new AbstractMap.SimpleEntry<>('q', () -> new Monster('q', "Queen’s Guard", 400, 20, 15, 5, 100)),

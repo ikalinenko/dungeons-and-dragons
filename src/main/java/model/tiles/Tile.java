@@ -5,7 +5,7 @@ import main.java.utils.Position;
 
 public abstract class Tile {
     public char tile;
-    protected Position position;
+    public Position position;
 
     public Tile(char tile) {
         this.tile = tile;
