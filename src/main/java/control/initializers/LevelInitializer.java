@@ -4,18 +4,10 @@ import main.java.utils.Position;
 import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.Generator;
-import main.java.utils.generators.RandomGenerator;
 import main.java.model.game.Board;
-import main.java.model.tiles.Empty;
 import main.java.model.tiles.Tile;
-import main.java.model.tiles.Wall;
 import main.java.model.tiles.units.enemies.Enemy;
 import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.FixedGenerator;
-import main.java.utils.generators.Generator;
 
 import java.io.IOException;
 import java.nio.file.Files;

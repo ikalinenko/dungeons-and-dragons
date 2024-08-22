@@ -1,6 +1,5 @@
 package main.java;
 
-import main.java.control.initializers.BoardLoader;
 import main.java.control.initializers.TileFactory;
 import main.java.control.initializers.LevelInitializer;
 import main.java.utils.callbacks.DeathCallBack;
@@ -12,12 +11,6 @@ import main.java.model.game.Board;
 import main.java.model.game.Game;
 import main.java.model.game.Level;
 import main.java.model.tiles.units.players.Player;
-import main.java.utils.Position;
-import main.java.utils.callbacks.DeathCallBack;
-import main.java.utils.callbacks.MessageCallBack;
-import main.java.utils.generators.FixedGenerator;
-import main.java.utils.generators.Generator;
-import main.java.view.ScannerInputReader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -26,8 +19,6 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
-import static java.awt.SystemColor.control;
 
 public class Main {
 
@@ -67,75 +58,37 @@ public class Main {
             }
         }
 
-        // Initialize callbacks and generator
+        // Initialize callbacks, generator, input reader
         Generator generator = new FixedGenerator(); // or any other generator you prefer
         MessageCallBack cb = System.out::println;
         DeathCallBack dcb = () -> System.out.println("You Lost.");
-
-        // Use LevelInitializer with playerChoice
-        LevelInitializer playerLevelInitializer = new LevelInitializer(playerChoice);
-
-        LevelInitializer levelInitializer = new LevelInitializer(playerChoice);
-
-        // Initialize input reader
         ScannerInputReader inputReader = new ScannerInputReader();
 
         try {
-                /*
-                // Process each level
-            for (var path : Files.list(Paths.get(levelsDirectoryPath))
-                    .filter(Files::isRegularFile)
-                    .sorted()
-                    .toList()) {
-                 */
-
             // Process first level
             var pathToLevel1 = Files.list(Paths.get(levelsDirectoryPath))
                     .sorted()
                     .collect(Collectors.toList())
                     .get(0);
             String levelPath = pathToLevel1.toString();
-            //System.out.println("Loading level: " + levelPath);
 
             // Initialize the level
-            levelInitializer.initLevel(levelPath);
+            LevelInitializer levelInit = new LevelInitializer(playerChoice, generator, cb, dcb);
+            levelInit.initLevel(levelPath);
 
             // Load the board
-            BoardLoader boardLoader = new BoardLoader(levelInitializer.getTiles(), levelInitializer.getPlayer(), levelInitializer.getEnemies(), levelPath);
-            Board board = boardLoader.loadBoard();
+            Board board = levelInit.getBoard();
 
             // Initialize the level and game with the new board
-            Level level = new Level(board, inputReader, cb, levelInitializer);
-            Game game = new Game(board, levelInitializer, inputReader, cb, dcb);
+            Level level = new Level(board, inputReader, cb, levelInit);
+            Game game = new Game(levelsDirectoryPath, levelInit, inputReader, board, cb);
             game.setLevel(level);
 
             // Run the game
             game.run();
 
-            /*
-            // Check if the player is alive after the level ends
-            if (!board.getPlayer().alive()) {
-                System.out.println("Game over.");
-            }
-             */
         } catch (IOException e) {
             System.out.println("Error loading levels: " + e.getMessage());
         }
     }
-
-
-
-
-
-    /*
-    private static int calculateWidth(String levelPath) {
-        try {
-            // Calculate the width of the board based on the first line of the level file
-            String firstLine = Files.readAllLines(Paths.get(levelPath)).get(0);
-            return firstLine.length();
-        } catch (IOException e) {
-            throw new RuntimeException("Error calculating board width: " + e.getMessage());
-        }
-    }
-     */
 }

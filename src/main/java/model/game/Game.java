@@ -2,7 +2,6 @@ package main.java.model.game;
 
 import main.java.control.initializers.GameInitializer;
 import main.java.control.initializers.LevelInitializer;
-import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.view.ScannerInputReader;
 import main.java.model.tiles.units.players.Player;

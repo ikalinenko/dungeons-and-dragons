@@ -60,14 +60,12 @@ public class Board {
             if (!enemy.alive()) {
                 Position enemyPos = enemy.getPosition();
 
-                // Debug: Print out the position before updating
                 //System.out.println("Removing dead enemy at position: " + enemyPos);
 
-                // Replace the enemy's position on the board with an Empty tile
                 board.put(enemyPos, new Empty());
 
                 // Debug: Verify that the tile was updated correctly
-                Tile updatedTile = board.get(enemyPos);
+                //Tile updatedTile = board.get(enemyPos);
                 //System.out.println("Updated tile at position: " + updatedTile);
 
                 iterator.remove(); // Safely remove the enemy from the list
