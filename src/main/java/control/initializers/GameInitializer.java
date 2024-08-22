@@ -5,7 +5,6 @@ import java.nio.file.*;
 import java.util.stream.Stream;
 
 public class GameInitializer {
-
     private String levelsPath;
     private int currentLevelIndex;
 

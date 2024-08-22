@@ -74,9 +74,11 @@ public class TileFactory {
     }
      */
 
+    /*
     public Player producePlayer() {
         return this.p;
     }
+     */
 
     public Enemy produceEnemy(char tile, Position p, Generator g, MessageCallBack cb, DeathCallBack dcb) {
         Enemy e = enemyTypes.get(tile).get();

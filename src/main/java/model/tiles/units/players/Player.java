@@ -28,13 +28,13 @@ public abstract class Player extends Unit {
         this.experience = 0;
     }
 
+    public Player(Position position) {
+        this.position = position;
+    }
+
     public Player initialize(Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
         super.initialize(p, gen, cb, dcb);
         return this;
-    }
-
-    public Player(Position position) {
-        this.position = position;
     }
 
     public void addExperience(int experienceValue) {

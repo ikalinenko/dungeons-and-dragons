@@ -7,7 +7,7 @@ import main.java.utils.generators.RandomGenerator;
 import main.java.model.game.Board;
 import main.java.model.tiles.units.players.Player;
 
-public class Monster extends Enemy implements HeroicUnit {
+public class Monster extends Enemy {
     protected int visionRange;
     private final Generator generator;
 
@@ -31,29 +31,7 @@ public class Monster extends Enemy implements HeroicUnit {
         return position.Range(player.getPosition()) < visionRange;
     }
 
-    @Override
-    public void castAbility(Board board) {
-        Player targetPlayer = board.getPlayer();
-
-        if (isInVisionRange(targetPlayer)) {
-
-            int attackRoll = attack();
-            int defenseRoll = targetPlayer.defend();
-            int damageTaken = attackRoll - defenseRoll;
-            targetPlayer.getHealth().takeDamage(damageTaken);
-
-            cb.send(name + " attacks " + targetPlayer.getName() + " for " + attackRoll + " damage.");
-            cb.send(targetPlayer.getName() + " rolled " + defenseRoll + " defence points.");
-            cb.send(name + " hit " + targetPlayer.getName() + " for " + damageTaken + " damage.");
-
-            if (!targetPlayer.alive()) {
-                cb.send(targetPlayer.getName() + " was killed by " + name + ".");
-                targetPlayer.onDeath();
-            }
-        }
-    }
-
-    protected void chasePlayer(Player player, Board board) {
+    public void chasePlayer(Player player, Board board) {
         Position newPosition;
         Position playerPos = player.getPosition();
 
@@ -79,7 +57,7 @@ public class Monster extends Enemy implements HeroicUnit {
         }
     }
 
-    protected void randomMove(Board board) {
+    public void randomMove(Board board) {
         int move = generator.generate(5);
 
         switch (move) {

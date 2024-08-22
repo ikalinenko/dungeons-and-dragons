@@ -59,7 +59,7 @@ public class Game {
         return gameInitializer.getCurrentLevelIndex() > gameInitializer.getTotalLevels();
     }
 
-    private void endGame() {
+    public void endGame() {
         Player player = board.getPlayer();
         if (!player.alive()) {
             cb.send("Game Over.");

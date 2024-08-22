@@ -18,14 +18,14 @@ public class Level {
         this.board = board;
     }
 
-    protected void playerTick() {
+    public void playerTick() {
         String action = inputReader.nextAction();
         board.getPlayer().performAction(action, board);
         board.getPlayer().onTurn();
         board.removeDeadEnemies();
     }
 
-    protected void enemiesTick() {
+    public void enemiesTick() {
         for (Enemy enemy : board.getEnemies()) {
             enemy.onEnemyTurn(board.getPlayer(), board);
         }

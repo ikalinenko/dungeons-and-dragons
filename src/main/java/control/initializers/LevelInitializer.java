@@ -11,7 +11,6 @@ import main.java.model.tiles.units.players.Player;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -91,7 +90,7 @@ public class LevelInitializer {
             row++;
         }
 
-        this.width = width; // Ensure width is correctly set
+        this.width = width;
         this.board = new Board(tiles, player, enemies, width);
     }
 
