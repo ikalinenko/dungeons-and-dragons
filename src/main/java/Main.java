@@ -6,6 +6,7 @@ import main.java.utils.callbacks.DeathCallBack;
 import main.java.utils.callbacks.MessageCallBack;
 import main.java.utils.generators.FixedGenerator;
 import main.java.utils.generators.Generator;
+import main.java.utils.generators.RandomGenerator;
 import main.java.view.ScannerInputReader;
 import main.java.model.game.Board;
 import main.java.model.game.Game;
@@ -59,7 +60,7 @@ public class Main {
         }
 
         // Initialize callbacks, generator, input reader
-        Generator generator = new FixedGenerator(); // or any other generator you prefer
+        Generator generator = new RandomGenerator(); // or any other generator you prefer
         MessageCallBack cb = System.out::println;
         DeathCallBack dcb = () -> System.out.println("You Lost.");
         ScannerInputReader inputReader = new ScannerInputReader();
