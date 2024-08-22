@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class Main {
+
     public static void main(String[] args) {
         if (args.length != 1) {
             System.out.println("Error: this program needs a path to the levels directory as an argument.");
@@ -28,14 +29,6 @@ public class Main {
         }
 
         String levelsDirectory = args[0];
-
-
-    /*
-    public static void main(String[] args) throws Exception {
-        //String levelsDirectory = "src/main/resources/levels_dir";
-        String levelsDirectory = "C:\\Users\\AM\\levels_dir";
-     */
-
 
         // Initialize tile factory and player options
         TileFactory tileFactory = new TileFactory();

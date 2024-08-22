@@ -7,8 +7,6 @@ import main.java.model.tiles.units.enemies.Boss;
 import main.java.model.tiles.units.enemies.Enemy;
 import main.java.model.tiles.units.enemies.Monster;
 import main.java.model.tiles.units.enemies.Trap;
-import main.java.model.tiles.units.enemies.Monster;
-import main.java.model.tiles.units.enemies.Trap;
 import main.java.model.tiles.units.players.*;
 import main.java.utils.Position;
 import main.java.utils.callbacks.DeathCallBack;
@@ -52,33 +50,11 @@ public class TileFactory {
     public TileFactory() {
     }
 
-    /*
-    public Player producePlayer(int playerID, Position p, Generator gen, MessageCallBack cb, DeathCallBack dcb) {
-        Supplier<Player> supplier = playerTypes.get(playerID - 1); // Ensure playerID is valid
-        Player player = supplier.get();
-        player.initialize(p, gen, cb, dcb);
-        return player;
-    }
-     */
-
     public Player producePlayer(int playerID) {
         Supplier<Player> supp = playerTypes.get(playerID-1);
         this.p = supp.get();
         return this.p;
     }
-
-    /*
-    public Player producePlayer(int playerID) {
-        Supplier<Player> supplier = playerTypes.get(playerID - 1); // Ensure playerID is valid
-        return supplier != null ? supplier.get() : null;
-    }
-     */
-
-    /*
-    public Player producePlayer() {
-        return this.p;
-    }
-     */
 
     public Enemy produceEnemy(char tile, Position p, Generator g, MessageCallBack cb, DeathCallBack dcb) {
         Enemy e = enemyTypes.get(tile).get();

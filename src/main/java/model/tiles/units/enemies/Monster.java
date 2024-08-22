@@ -1,6 +1,5 @@
 package main.java.model.tiles.units.enemies;
 
-import main.java.model.tiles.units.HeroicUnit;
 import main.java.utils.Position;
 import main.java.utils.generators.Generator;
 import main.java.utils.generators.RandomGenerator;
@@ -15,7 +14,7 @@ public class Monster extends Enemy {
                    int attack, int defense, int visionRange, int experience) {
         super(tile, name, hitPoints, attack, defense, experience);
         this.visionRange = visionRange;
-        this.generator = new RandomGenerator(); // Default random generator
+        this.generator = new RandomGenerator();
     }
 
     @Override
